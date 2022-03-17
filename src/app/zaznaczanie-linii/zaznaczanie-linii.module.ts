@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ZaznaczanieLiniiPageRoutingModule } from './zaznaczanie-linii-routing.module';
 
 import { ZaznaczanieLiniiPage } from './zaznaczanie-linii.page';
+import { NgxChessBoardModule } from 'ngx-chess-board';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ZaznaczanieLiniiPageRoutingModule
+    ZaznaczanieLiniiPageRoutingModule,
+    NgxChessBoardModule.forRoot()
   ],
   declarations: [ZaznaczanieLiniiPage]
 })

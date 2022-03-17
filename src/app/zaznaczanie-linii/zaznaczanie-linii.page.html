@@ -1,11 +1,18 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>zaznaczanieLinii</ion-title>
+    <ion-title>
+      Lekcja 1
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<p>Siema</p>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Lekcja 1</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div id="board"></div>
 </ion-content>
 
 <ion-tabs>
