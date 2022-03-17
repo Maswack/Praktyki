@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Gra w Szachy
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Gra w Szachy</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-item id="chessboard">
+    <ngx-chess-board #board
+      [size] = "250"
+    ></ngx-chess-board>
+  </ion-item>
+
+</ion-content>
+
