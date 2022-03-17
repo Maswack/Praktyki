@@ -6,10 +6,9 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  {
-    path: 'strona',
-    loadChildren: () => import('./strona/strona.module').then( m => m.StronaPageModule)
-  }
+
+
+
 ];
 @NgModule({
   imports: [
