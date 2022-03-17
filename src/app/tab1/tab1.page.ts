@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgxChessBoardService } from 'ngx-chess-board';
 import { NgxChessBoardView } from 'ngx-chess-board';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -10,6 +11,7 @@ import { NgxChessBoardView } from 'ngx-chess-board';
 })
 export class Tab1Page implements OnInit{
 
+  @Input() screenWidth: number; 
   ngOnInit(): void {
   }
   
@@ -19,7 +21,14 @@ export class Tab1Page implements OnInit{
     this.board.reset();
   }
 
-  constructor(private ngxChessBoardService: NgxChessBoardService) {}
+  constructor(private ngxChessBoardService: NgxChessBoardService, platform: Platform) {
+    
+    platform.ready().then(() => {
+      this.screenWidth = platform.width();
+    });
+
+  }
+  
 }
 
 
