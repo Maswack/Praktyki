@@ -1,14 +1,17 @@
-#board{
-    width:244px;
-    background-color: gray;
-    height: 244px;
-    border: 2px lightblue solid;
-    margin:auto;
-    display: flex;
-    flex-wrap: wrap;
+#chessboard{
+    width: 100vw;
+    justify-content: center;
+    display: block;
   }
+
+
+
   .file{
       width:30px;
       height:30px;
       background-color: brown;
+  }
+
+  #rankingLabel {
+      display: flex;
   }

@@ -13,9 +13,18 @@
     </ion-toolbar>
   </ion-header>
   <div>
-    <ion-item>Ranking: 1337</ion-item>
-    <div id="board"></div>
+    <ion-item>
+      <ion-button>Ranking: 1337</ion-button>
+    </ion-item>
+
+    <ngx-chess-board #board
+      [size] = "screenWidth"
+      (moveChange)="onPieceMove()"
+    ></ngx-chess-board>
+
+    <ion-item>
     <ion-button><ion-icon name="list"></ion-icon>Wszystkie zadania</ion-button>
     <ion-button><ion-icon name="stats-chart"></ion-icon>Statystyki</ion-button>
+    </ion-item>
   </div>
 </ion-content>

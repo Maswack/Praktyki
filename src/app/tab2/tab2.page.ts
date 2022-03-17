@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NgxChessBoardView } from 'ngx-chess-board';
+import { NgxChessBoardService } from 'ngx-chess-board';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -7,21 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Tab2Page implements OnInit{
 
+  @Input() screenWidth: string;
   ngOnInit(): void {
-    this.startPuzzles();
+    
   }
-  constructor() {}
-  async startPuzzles()
-  {
-    for(let i=0; i<64; i++)
-    {
-      const newFile = document.createElement("div");
-      newFile.className = "file";
-      ((i+Math.floor(i/8))%2 == 0)? newFile.style.background = "brown" : newFile.style.background = "white";
-      newFile.style.width = "30px";
-      newFile.style.height = "30px";
-      newFile.style.display = "inline-block";
-      document.querySelector("#board").appendChild(newFile)
-    }
+
+  @ViewChild('board', {static: false}) board!: NgxChessBoardView;
+
+  reset() {
+    this.board.reset();
   }
+
+
+  onPieceMove() {
+    console.log("Moved Piece");
+  }
+
+  constructor(private ngxChessBoardService: NgxChessBoardService, private platform: Platform) {
+    this.platform.ready().then(() => {
+      this.screenWidth = "" + platform.width();
+    })
+  }
+  
 }
