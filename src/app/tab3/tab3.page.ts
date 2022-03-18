@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { ViewChild } from '@angular/core';
+import { Input } from '@angular/core';
+
+import { Platform } from '@ionic/angular';
+import { TouchSequence } from 'selenium-webdriver';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -8,6 +14,17 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
-  constructor() {}
-  
+  @Input() screenWidth: string;
+  @Input() chessLessons: string;
+  @Input() graphicSetup: string;
+  @Input() actualLesson: string;
+  @Input() lesson: number;
+
+
+
+  constructor(private platform: Platform) {
+    this.platform.ready().then(() => {
+        this.screenWidth = "" + platform.width();
+    })
+  }
 }
