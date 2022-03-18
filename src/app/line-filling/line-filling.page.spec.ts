@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ZaznaczanieLiniiPage } from './zaznaczanie-linii.page';
+import { LineFillingPage } from './line-filling.page';
 
-describe('ZaznaczanieLiniiPage', () => {
-  let component: ZaznaczanieLiniiPage;
-  let fixture: ComponentFixture<ZaznaczanieLiniiPage>;
+describe('LineFillingPage', () => {
+  let component: LineFillingPage;
+  let fixture: ComponentFixture<LineFillingPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ZaznaczanieLiniiPage ],
+      declarations: [ LineFillingPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ZaznaczanieLiniiPage);
+    fixture = TestBed.createComponent(LineFillingPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

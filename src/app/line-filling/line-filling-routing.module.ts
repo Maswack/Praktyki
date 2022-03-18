@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ZaznaczanieLiniiPage } from './zaznaczanie-linii.page';
+import { LineFillingPage } from './line-filling.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ZaznaczanieLiniiPage,
+    component: LineFillingPage,
     children: [
       {
         path: 'tab1',
@@ -31,4 +31,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ZaznaczanieLiniiPageRoutingModule {}
+export class LineFillingPageRoutingModule {}

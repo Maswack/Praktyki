@@ -5,9 +5,10 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },  {
-    path: 'zaznaczanie-linii',
-    loadChildren: () => import('./zaznaczanie-linii/zaznaczanie-linii.module').then( m => m.ZaznaczanieLiniiPageModule)
+  },
+  {
+    path: 'line-filling',
+    loadChildren: () => import('./line-filling/line-filling.module').then( m => m.LineFillingPageModule)
   },
 
 
