@@ -54,17 +54,17 @@ export class LineSelectorNewComponent {
       arrayOfTiles[i].addEventListener('click', (e) => this.checkIfCorrect(e))
     }
     //this.lesson
-    this.setupLesson();
+    this.setupLesson(this.lesson);
   }
 
-  async setupLesson() {
+  async setupLesson(lessonIndex) {
     const setupArray = this.graphicSetup.split("/")[this.lesson].split(",");
     this.actualLesson = this.chessLessons.split("/")[this.lesson];
     this.standardArrayOfLessons = this.chessLessons.split("/")[this.lesson];
     
     const lessonsLeftArray = this.lessonLeft.split(",");
-    lessonsLeftArray.splice(this.lesson, 1);
-    this.lessonLeft = lessonsLeftArray.toString();
+    lessonsLeftArray.splice(lessonIndex, 1);
+    this.lessonLeft = lessonsLeftArray.toString()
 
     this.createShitLine(setupArray[0], setupArray[1], setupArray[2], setupArray[3],setupArray[4]);
   }
@@ -129,10 +129,13 @@ export class LineSelectorNewComponent {
     }
 
     this.actualLesson = resultsArray.toString();
-    if(this.actualLesson == ""){
-      this.handleTheEndOfLesson();
+    if(this.actualLesson == "")
+    {
+      if(this.lessonLeft.length >= 1)
+        this.handleTheEndOfLesson();
+      else
+        this.handleTheEndOfFullChapter();
     }
-
   }
 
   selectCorrectTile(target) {
@@ -174,6 +177,16 @@ export class LineSelectorNewComponent {
     await this.nextLesson();
   }
 
+  async handleTheEndOfFullChapter() {
+    const alert = await this.alertController.create({
+      header:"Gratulacje Mistrzuniu !!!",
+      message: "Ukończyłeś cały rozdział"
+    })
+
+    await alert.present();
+    await this.destroyAllChildren();
+  }
+
   async nextLesson() {
     const lessonsLeftArray = this.lessonLeft.split(',');
     const length = lessonsLeftArray.length;
@@ -182,7 +195,8 @@ export class LineSelectorNewComponent {
     this.lesson = parseInt(lessonsLeftArray[randNumber]);
 
     await this.destroyAllChildren();
-    await this.setupLesson();
+    await this.setupLesson(randNumber);
+  
   }
 
   async destroyAllChildren() {
