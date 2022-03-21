@@ -6,8 +6,7 @@ import { LessonComponent } from './lesson.component';
 
 @Component({
   selector: 'app-lesson',
-  template: `
-    <div>
+  template: `<div>
       <ng-template lessonHost></ng-template>
     </div>
   `
@@ -19,26 +18,19 @@ export class LessonContainerComponent implements OnInit, OnDestroy {
 
   @Input() lessons: LessonItem[] = [];
 
-  currentLessonIndex = -1;
-
   @ViewChild(LessonDirective, {static: true}) lessonHost!: LessonDirective;
   interval: any;
 
   ngOnInit(): void {
-    this.loadComponent();
-  }
-
-  lesson1(): void {
-    this.loadComponent();
+    
   }
 
   ngOnDestroy() {
     clearInterval(this.interval);
   }
 
-  loadComponent() {
-    this.currentLessonIndex = (this.currentLessonIndex + 1) % this.lessons.length;
-    const LessonItem = this.lessons[this.currentLessonIndex];
+  loadComponent(lessonIndex) {
+    const LessonItem = this.lessons[lessonIndex];
 
     const viewContainerRef = this.lessonHost.viewContainerRef;
     viewContainerRef.clear();

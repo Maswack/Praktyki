@@ -1,6 +1,7 @@
-import { Directive, ViewContainerRef, Component } from '@angular/core';
+import { Directive, ViewContainerRef, Component, ViewChild } from '@angular/core';
 import { LessonItem } from '../lessons/lesson-item';
 import { LessonService } from '../lessons/lesson.service';
+import { LessonContainerComponent } from '../lessons/lessonsContainer.component';
 
 @Directive({
   selector: '[chessboard]'
@@ -13,17 +14,14 @@ import { LessonService } from '../lessons/lesson.service';
 export class Tab3Page {
 
   constructor(public viewContainerRef: ViewContainerRef, private lessonService: LessonService) {}
-  // https://angular.io/guide/dynamic-component-loader
-  //TODO: dynamic component w tym miejscu, zeby szachownica wyswiatlala lekcje w zaleznosci od tego ktora 
-  //wybierzemy, jesli sie tak nie da, to nie wiem poddac sie i wyjechac w bieszczady, bo innych opcji nie widze
-  firstLesson()
+  @ViewChild(LessonContainerComponent) lesson:LessonContainerComponent;
+  startLesson(index)
   {
-
+    this.lesson.loadComponent(index);
   }
   lessons: LessonItem[] = [];
 
   ngOnInit() {
     this.lessons = this.lessonService.getLessons();
-    console.log(this.lessons)
   }
 }
