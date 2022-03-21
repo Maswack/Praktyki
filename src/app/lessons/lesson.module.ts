@@ -4,6 +4,7 @@ import { LessonService } from './lesson.service';
 import { LessonContainerComponent } from './lessonsContainer.component';
 import { LessonDirective } from './lesson.directive';
 import { LessonChessboardComponent } from './lesson-chessboard.component';
+import { LineSelectorNewComponent } from '../line-selector-new/line-selector-new.component';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { LessonChessboardComponent } from './lesson-chessboard.component';
   declarations: [
     LessonContainerComponent,
     LessonChessboardComponent,
+    LineSelectorNewComponent,
     LessonDirective
   ],
 })

@@ -1,18 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Input } from '@angular/core';
-import { ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Platform } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
-
+import { AlertController, Platform } from '@ionic/angular';
 
 @Component({
-  selector: 'app-line-selector',
-  templateUrl: './line-selector.page.html',
-  styleUrls: ['./line-selector.page.scss'],
+  selector: 'app-line-selector-new',
+  templateUrl: './line-selector-new.component.html',
+  styleUrls: ['./line-selector-new.component.scss'],
 })
-export class LineSelectorPage {
+export class LineSelectorNewComponent {
 
   @Input() screenWidth: string;
   @Input() chessLessons: string;
@@ -29,7 +25,7 @@ export class LineSelectorPage {
         this.chessLessons = "a1,a2,a3,a4,a5,a6,a7,a8/a7,b7,c7,d7,e7,f7,g7,h7/d1,d2,d3,d4,d5,d6,d7,d8/a4,b4,c4,d4,e4/h8,h7,h6";
 
         this.graphicSetup = "276px,34.5px,0,top,8/34.5px,276px,1,right,8/276px,34.5px,3,top,8/34.5px,276px,4,right,5/276px,34.5px,7,top,3";
-        this.lesson = Math.floor(Math.random() * (1 + 2));
+        this.lesson = Math.floor(Math.random() * (1 + 4));
 
         const chessboard = document.getElementById("chessBoardComponent")
         chessboard.style.display="flex";
@@ -73,7 +69,7 @@ export class LineSelectorPage {
     line.style.width = width;
     line.style.height = height;
     if(orientation == "right")
-      line.style.top = (top * 34.5 + 63) + "px";
+      line.style.top = (top * 34.5 + 202) + "px";
       else {
         line.style.left = (top * 34.5) + "px";
       }
@@ -158,10 +154,7 @@ export class LineSelectorPage {
       message: "Udało ci Się rozwiązać Lekcje",
       buttons: [
         {
-          text: 'ok',
-          handler: () => {
-            this.router.navigate(['']);
-          }
+          text: 'ok'
         }
       ]
     })

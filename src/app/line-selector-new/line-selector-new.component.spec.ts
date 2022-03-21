@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { LineSelectorPage } from './line-selector.page';
+import { LineSelectorNewComponent } from './line-selector-new.component';
 
-describe('LineSelectorPage', () => {
-  let component: LineSelectorPage;
-  let fixture: ComponentFixture<LineSelectorPage>;
+describe('LineSelectorNewComponent', () => {
+  let component: LineSelectorNewComponent;
+  let fixture: ComponentFixture<LineSelectorNewComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LineSelectorPage ],
+      declarations: [ LineSelectorNewComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LineSelectorPage);
+    fixture = TestBed.createComponent(LineSelectorNewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

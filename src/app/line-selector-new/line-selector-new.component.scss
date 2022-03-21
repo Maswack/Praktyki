@@ -1,3 +1,24 @@
+//line-selector
+#chessboard {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.chessTile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tabs {
+    pointer-events: none;
+}
+#tabBar {
+    pointer-events: all;
+}
+
+//chessboard
 .white {
     background-color: rgb(97, 84, 61);
     width: 34.5px;

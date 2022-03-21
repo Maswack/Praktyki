@@ -10,10 +10,7 @@ const routes: Routes = [
     path: 'line-filling',
     loadChildren: () => import('./line-filling/line-filling.module').then( m => m.LineFillingPageModule)
   },
-  {
-    path: 'line-selector',
-    loadChildren: () => import('./line-selector/line-selector.module').then( m => m.LineSelectorPageModule)
-  },
+
 
 
 
