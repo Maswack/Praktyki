@@ -16,6 +16,7 @@ export class LineSelectorPage {
 
   @Input() screenWidth: string;
   @Input() chessLessons: string;
+  @Input() standardArrayOfLessons: string;
   @Input() graphicSetup: string;
   @Input() actualLesson: string;
   @Input() lesson: number;
@@ -25,10 +26,10 @@ export class LineSelectorPage {
   constructor(private platform: Platform, public alertController: AlertController, public router: Router) {
     this.platform.ready().then(() => {
         this.screenWidth = "" + platform.width();
-        this.chessLessons = "a1,a2,a3,a4,a5,a6,a7,a8/a7,b7,c7,d7,e7,f7,g7,h7";
+        this.chessLessons = "a1,a2,a3,a4,a5,a6,a7,a8/a7,b7,c7,d7,e7,f7,g7,h7/d1,d2,d3,d4,d5,d6,d7,d8/a4,b4,c4,d4,e4/h8,h7,h6";
 
-        this.graphicSetup = "276px,34.5px,,top/34.5px,276px,97.5px,right";
-        this.lesson = Math.floor(Math.random() * (1 + 1));
+        this.graphicSetup = "276px,34.5px,0,top,8/34.5px,276px,1,right,8/276px,34.5px,3,top,8/34.5px,276px,4,right,5/276px,34.5px,7,top,3";
+        this.lesson = Math.floor(Math.random() * (1 + 2));
 
         const chessboard = document.getElementById("chessBoardComponent")
         chessboard.style.display="flex";
@@ -53,31 +54,39 @@ export class LineSelectorPage {
       arrayOfTiles[i].id = index1+index2;
       arrayOfTiles[i].addEventListener('click', (e) => this.checkIfCorrect(e))
     }
+    //this.lesson
+    const setupArray = this.graphicSetup.split("/")[4].split(",");
+    this.actualLesson = this.chessLessons.split("/")[4];
+    this.standardArrayOfLessons = this.chessLessons.split("/")[4];
 
-    const setupArray = this.graphicSetup.split("/")[this.lesson].split(",");
-    this.actualLesson = this.chessLessons.split("/")[this.lesson];
-
-    this.createShitLine(setupArray[0], setupArray[1], setupArray[2], setupArray[3]);
+    this.createShitLine(setupArray[0], setupArray[1], setupArray[2], setupArray[3],setupArray[4]);
   }
 
 
 
 
 
-  createShitLine(height, width, top, orientation ) {
+  createShitLine(height, width, top, orientation, length ) {
     const chessboard = document.getElementById("chessboard");
     const line = document.createElement("div");
 
+    console.log((top * 34.5) + "px")
+    console.log((top * 34.5 + 63) + "px")
+
     line.style.width = width;
     line.style.height = height;
-    line.style.top = top;
+    if(orientation == "right")
+      line.style.top = (top * 34.5 + 63) + "px";
+      else {
+        line.style.left = (top * 34.5) + "px";
+      }
     line.style.position = "absolute";
     line.style.overflow = "hidden";
     line.style.pointerEvents = "none";
 
     chessboard.append(line)
 
-    for(let i =0; i<8; i++){
+    for(let i =0; i<length; i++){
       const tile = document.createElement('ion-icon');
 
       if(orientation == "top")
@@ -96,15 +105,23 @@ export class LineSelectorPage {
 
 
   async checkIfCorrect(e) {
+    const target = e.target;
     const clickedTile = e.target.id;
     const resultsArray = this.actualLesson.split(',');
+
+    target.style.display = "flex";
+    target.style.justifyContent = "center";
+    target.style.alignItems = "center";
     
 
     if(resultsArray.includes(clickedTile)){
       const index = resultsArray.indexOf(clickedTile);
       resultsArray.splice(index,1);
 
-      this.selectCorrectTile(e.target);
+      this.selectCorrectTile(e.target); 
+    }
+    else if(!this.standardArrayOfLessons.includes(clickedTile)) {
+      this.selectWrongTile(e.target);
     }
 
     this.actualLesson = resultsArray.toString();
@@ -124,6 +141,18 @@ export class LineSelectorPage {
 
     target.appendChild(greenTile);
     
+  }
+
+  selectWrongTile(target) {
+    const redTile = document.createElement('div');
+
+    redTile.style.width = "31.5px";
+    redTile.style.height = "31.5px";
+    redTile.style.borderRadius = "10px";
+    redTile.style.backgroundColor = "rgba(230,0,0, 0.6)";
+
+    target.appendChild(redTile);
+
   }
 
   async handleTheEndOfLesson() {
