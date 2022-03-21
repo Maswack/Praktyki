@@ -55,9 +55,9 @@ export class LineSelectorPage {
       arrayOfTiles[i].addEventListener('click', (e) => this.checkIfCorrect(e))
     }
     //this.lesson
-    const setupArray = this.graphicSetup.split("/")[4].split(",");
-    this.actualLesson = this.chessLessons.split("/")[4];
-    this.standardArrayOfLessons = this.chessLessons.split("/")[4];
+    const setupArray = this.graphicSetup.split("/")[this.lesson].split(",");
+    this.actualLesson = this.chessLessons.split("/")[this.lesson];
+    this.standardArrayOfLessons = this.chessLessons.split("/")[this.lesson];
 
     this.createShitLine(setupArray[0], setupArray[1], setupArray[2], setupArray[3],setupArray[4]);
   }
