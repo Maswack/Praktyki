@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { ViewChild } from '@angular/core';
-import { Input } from '@angular/core';
-
-import { Platform } from '@ionic/angular';
-import { TouchSequence } from 'selenium-webdriver';
-import { AlertController } from '@ionic/angular';
+import { Directive, ViewContainerRef, Component, ViewChild } from '@angular/core';
+import { LessonItem } from '../lessons/lesson-item';
+import { LessonService } from '../lessons/lesson.service';
+import { LessonContainerComponent } from '../lessons/lessonsContainer.component';
 
 
+@Directive({
+  selector: '[chessboard]'
+})
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -14,17 +14,15 @@ import { AlertController } from '@ionic/angular';
 })
 export class Tab3Page {
 
-  @Input() screenWidth: string;
-  @Input() chessLessons: string;
-  @Input() graphicSetup: string;
-  @Input() actualLesson: string;
-  @Input() lesson: number;
+  constructor(public viewContainerRef: ViewContainerRef, private lessonService: LessonService) {}
+  @ViewChild(LessonContainerComponent) lesson:LessonContainerComponent;
+  startLesson(index)
+  {
+    this.lesson.loadComponent(index);
+  }
+  lessons: LessonItem[] = [];
 
-
-
-  constructor(private platform: Platform) {
-    this.platform.ready().then(() => {
-        this.screenWidth = "" + platform.width();
-    })
+  ngOnInit() {
+    this.lessons = this.lessonService.getLessons();
   }
 }
