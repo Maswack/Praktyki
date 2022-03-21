@@ -9,3 +9,11 @@
     justify-content: center;
     align-items: center;
 }
+
+#tabs {
+    pointer-events: none;
+}
+#tabBar {
+    pointer-events: all;
+}
+

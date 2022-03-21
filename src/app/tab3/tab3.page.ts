@@ -3,6 +3,7 @@ import { LessonItem } from '../lessons/lesson-item';
 import { LessonService } from '../lessons/lesson.service';
 import { LessonContainerComponent } from '../lessons/lessonsContainer.component';
 
+
 @Directive({
   selector: '[chessboard]'
 })

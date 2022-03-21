@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Lekcje
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  
+  <div id="przyciskiWrapper">
+    <ion-item><ion-button (click)="rozpocznijZadanie1()"><ion-icon name="school"></ion-icon>Zaznaczanie linii</ion-button></ion-item>
+    <ion-item><ion-button><ion-icon name="school"></ion-icon>Uzupełnianie linii</ion-button></ion-item>
+  </div>
+
+  <div id="chessboard">
+    <ngx-chess-board #board
+      [size] = "screenWidth"
+      [freeMode] = "true"
+      (moveChange) = "sprawdzRuch()"
+    ></ngx-chess-board>
+  </div>
+
+</ion-content>
+
+
+
