@@ -70,9 +70,6 @@ export class LineSelectorPage {
     const chessboard = document.getElementById("chessboard");
     const line = document.createElement("div");
 
-    console.log((top * 34.5) + "px")
-    console.log((top * 34.5 + 63) + "px")
-
     line.style.width = width;
     line.style.height = height;
     if(orientation == "right")
