@@ -33,7 +33,12 @@ export class LineFillerNewComponent{
       newTile.setAttribute("id", id.toString());
       this.board.nativeElement.appendChild(newTile);
       const appendedChild = document.getElementById(id.toString());
+      const cname = ((i + Math.floor(i/8)) % 2 == 0) ? "whiteTile" : "blackTile";
+      this.renderer.setAttribute(newTile, "class", cname)
 
+      let timeToTimeout = 0;
+      if(!this.level) timeToTimeout = 2000;
+      setTimeout( () =>
       appendedChild.addEventListener("click", () => {
         let correct = -1;
         for(let i = 0; i < this.idsToClick.length; i++)
@@ -53,9 +58,8 @@ export class LineFillerNewComponent{
           redTile.className = "redTile";
           appendedChild.appendChild(redTile);
         }
-      });
-      const cname = ((i + Math.floor(i/8)) % 2 == 0) ? "whiteTile" : "blackTile";
-      this.renderer.setAttribute(newTile, "class", cname)
+      }), timeToTimeout
+      )
     }
   }
   async makeGreen()
@@ -101,7 +105,10 @@ export class LineFillerNewComponent{
         message: "Ukończyłeś cały rozdział",
         buttons: [
           {
-            text: 'Wiem'
+            text: 'meh, zbyt łatwe'
+          },
+          {
+            text: 'LETS GOOOOOOO'
           }
         ]
       })
@@ -115,10 +122,14 @@ export class LineFillerNewComponent{
       case 3: this.ids = [11, 33, 44, 66]; this.idsToClick = [22, 55, 77, 88]; break;
     }
     const board = document.getElementById("board");
-    while(board.firstChild) board.removeChild(board.firstChild);
+    while(board.firstChild) 
+    {
+      const orphan = board.firstChild;
+      board.removeChild(orphan);
+    }
     
+    this.level++;
     this.makeChess();
     this.makeGreen();
-    this.level++;
   }
 }

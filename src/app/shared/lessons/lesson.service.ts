@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 //import { LessonChessboardComponent } from './lesson-chessboard.component';
-import { LineSelectorNewComponent } from '../line-selector-new/line-selector-new.component';
+import { LineSelectorNewComponent } from '../chess-lesson-components/line-selector-new/line-selector-new.component';
 
 import { LessonItem } from './lesson-item';
-import { LineFillerNewComponent } from '../line-filler-new/line-filler-new.component';
+import { LineFillerNewComponent } from '../chess-lesson-components/line-filler-new/line-filler-new.component';
 
 @Injectable()
 export class LessonService {
