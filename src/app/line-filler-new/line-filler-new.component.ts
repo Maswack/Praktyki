@@ -101,7 +101,10 @@ export class LineFillerNewComponent{
         message: "Ukończyłeś cały rozdział",
         buttons: [
           {
-            text: 'Wiem'
+            text: 'meh, zbyt łatwe'
+          },
+          {
+            text: 'LETS GOOOOOOO'
           }
         ]
       })
@@ -115,7 +118,11 @@ export class LineFillerNewComponent{
       case 3: this.ids = [11, 33, 44, 66]; this.idsToClick = [22, 55, 77, 88]; break;
     }
     const board = document.getElementById("board");
-    while(board.firstChild) board.removeChild(board.firstChild);
+    while(board.firstChild) 
+    {
+      const orphan = board.firstChild;
+      board.removeChild(orphan);
+    }
     
     this.makeChess();
     this.makeGreen();
