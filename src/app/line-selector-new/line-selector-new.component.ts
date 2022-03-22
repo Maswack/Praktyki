@@ -17,15 +17,18 @@ export class LineSelectorNewComponent {
   @Input() actualLesson: string;
   @Input() lesson: number;
 
+  @Input() lessonLeft: string;
+
 
 
   constructor(private platform: Platform, public alertController: AlertController, public router: Router) {
     this.platform.ready().then(() => {
         this.screenWidth = "" + platform.width();
-        this.chessLessons = "a1,a2,a3,a4,a5,a6,a7,a8/a7,b7,c7,d7,e7,f7,g7,h7/d1,d2,d3,d4,d5,d6,d7,d8/a4,b4,c4,d4,e4/h8,h7,h6";
+        this.chessLessons = "a1,a2,a3,a4,a5,a6,a7,a8/a7,b7,c7,d7,e7,f7,g7,h7/d1,d2,d3,d4,d5,d6,d7,d8/a4,b4,c4,d4,e4,f4,g4,h4/h8,h7,h6,h5,h4,h3,h2,h1";
 
-        this.graphicSetup = "276px,34.5px,0,top,8/34.5px,276px,1,right,8/276px,34.5px,3,top,8/34.5px,276px,4,right,5/276px,34.5px,7,top,3";
+        this.graphicSetup = "276px,34.5px,0,top,8/34.5px,276px,1,right,8/276px,34.5px,3,top,8/34.5px,276px,4,right,8/276px,34.5px,7,top,8";
         this.lesson = Math.floor(Math.random() * (1 + 4));
+        this.lessonLeft = "0,1,2,3,4";
 
         const chessboard = document.getElementById("chessBoardComponent")
         chessboard.style.display="flex";
@@ -51,9 +54,17 @@ export class LineSelectorNewComponent {
       arrayOfTiles[i].addEventListener('click', (e) => this.checkIfCorrect(e))
     }
     //this.lesson
+    this.setupLesson(this.lesson);
+  }
+
+  async setupLesson(lessonIndex) {
     const setupArray = this.graphicSetup.split("/")[this.lesson].split(",");
     this.actualLesson = this.chessLessons.split("/")[this.lesson];
     this.standardArrayOfLessons = this.chessLessons.split("/")[this.lesson];
+    
+    const lessonsLeftArray = this.lessonLeft.split(",");
+    lessonsLeftArray.splice(lessonIndex, 1);
+    this.lessonLeft = lessonsLeftArray.toString()
 
     this.createShitLine(setupArray[0], setupArray[1], setupArray[2], setupArray[3],setupArray[4]);
   }
@@ -118,10 +129,13 @@ export class LineSelectorNewComponent {
     }
 
     this.actualLesson = resultsArray.toString();
-    if(this.actualLesson == ""){
-      this.handleTheEndOfLesson();
+    if(this.actualLesson == "")
+    {
+      if(this.lessonLeft.length >= 1)
+        this.handleTheEndOfLesson();
+      else
+        this.handleTheEndOfFullChapter();
     }
-
   }
 
   selectCorrectTile(target) {
@@ -160,6 +174,46 @@ export class LineSelectorNewComponent {
     })
 
     await alert.present();
+    await this.nextLesson();
+  }
+
+  async handleTheEndOfFullChapter() {
+    const alert = await this.alertController.create({
+      header:"Gratulacje Mistrzuniu !!!",
+      message: "Ukończyłeś cały rozdział"
+    })
+
+    await alert.present();
+    await this.destroyAllChildren();
+  }
+
+  async nextLesson() {
+    const lessonsLeftArray = this.lessonLeft.split(',');
+    const length = lessonsLeftArray.length;
+    
+    const randNumber = Math.floor(Math.random() * (length)); 
+    this.lesson = parseInt(lessonsLeftArray[randNumber]);
+
+    await this.destroyAllChildren();
+    await this.setupLesson(randNumber);
+  
+  }
+
+  async destroyAllChildren() {
+    const chessboard = document.getElementById("chessboard");
+    const chessboardChild = chessboard.children[0];
+
+    chessboard.removeChild(chessboardChild);
+    
+    const chessBoardComponentChildren = document.getElementById("chessBoardComponent").children;
+    
+    Array.from(chessBoardComponentChildren).forEach( child => {
+      if(child.children.length != 0){
+        const coloredTile = child.children[0];
+        child.removeChild(coloredTile);
+      }
+    });
+
   }
 
 
