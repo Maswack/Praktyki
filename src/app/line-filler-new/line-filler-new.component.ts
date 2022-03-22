@@ -33,7 +33,12 @@ export class LineFillerNewComponent{
       newTile.setAttribute("id", id.toString());
       this.board.nativeElement.appendChild(newTile);
       const appendedChild = document.getElementById(id.toString());
+      const cname = ((i + Math.floor(i/8)) % 2 == 0) ? "whiteTile" : "blackTile";
+      this.renderer.setAttribute(newTile, "class", cname)
 
+      let timeToTimeout = 0;
+      if(!this.level) timeToTimeout = 2000;
+      setTimeout( () =>
       appendedChild.addEventListener("click", () => {
         let correct = -1;
         for(let i = 0; i < this.idsToClick.length; i++)
@@ -53,9 +58,8 @@ export class LineFillerNewComponent{
           redTile.className = "redTile";
           appendedChild.appendChild(redTile);
         }
-      });
-      const cname = ((i + Math.floor(i/8)) % 2 == 0) ? "whiteTile" : "blackTile";
-      this.renderer.setAttribute(newTile, "class", cname)
+      }), timeToTimeout
+      )
     }
   }
   async makeGreen()
@@ -124,8 +128,8 @@ export class LineFillerNewComponent{
       board.removeChild(orphan);
     }
     
+    this.level++;
     this.makeChess();
     this.makeGreen();
-    this.level++;
   }
 }
