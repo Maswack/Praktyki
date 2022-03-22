@@ -11,6 +11,9 @@ import { LineSelectorNewComponent } from '../line-selector-new/line-selector-new
   imports: [
     IonicModule
   ],
+  exports: [
+    LessonContainerComponent
+  ],
   providers: [ LessonService ],
   declarations: [
     LessonContainerComponent,

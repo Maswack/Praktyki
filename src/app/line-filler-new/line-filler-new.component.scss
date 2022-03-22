@@ -1,0 +1,36 @@
+#board{
+    display: flex;
+    flex-wrap: wrap;
+}
+.greenTile{
+    background : #0F0;
+    opacity : 0.5;
+    width : 30px;
+    height: 30px;
+    margin-left: 2px;
+    border-radius : 5px;
+    margin-top : 2px;
+    display: inline-block;
+}
+.whiteTile{
+    background-color: #BAA378;
+    width : 34.325px;
+    height: 34.325px;
+    display: block;
+}
+.blackTile{
+    background-color: rgb(97, 84, 61);
+    width : 34.325px;
+    height: 34.325px;
+    display: block;
+}
+.redTile{
+    background : #F00;
+    opacity : 0.5;
+    width : 30px;
+    height: 30px;
+    margin-left: 2px;
+    border-radius : 5px;
+    margin-top : 2px;
+    display: inline-block;
+}

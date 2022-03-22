@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { LessonChessboardComponent } from './lesson-chessboard.component';
+//import { LessonChessboardComponent } from './lesson-chessboard.component';
 import { LineSelectorNewComponent } from '../line-selector-new/line-selector-new.component';
 
 import { LessonItem } from './lesson-item';
+import { LineFillerNewComponent } from '../line-filler-new/line-filler-new.component';
 
 @Injectable()
 export class LessonService {
@@ -13,7 +14,7 @@ export class LessonService {
         {}
       ),
       new LessonItem(
-        LessonChessboardComponent,
+        LineFillerNewComponent,
         { name: 'Lekcja2', desc: 'Uzupełnianie linii' }
       )
     ];

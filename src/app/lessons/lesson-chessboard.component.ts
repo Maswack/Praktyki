@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { LessonContainerComponent } from './lessonsContainer.component';
 
-// <div class="hero-profile">
+// <div>
     //   <h3>Lekcja</h3>
     //   <h4>{{data.name}}</h4>
 
