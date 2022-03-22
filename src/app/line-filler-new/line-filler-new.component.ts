@@ -45,7 +45,6 @@ export class LineFillerNewComponent{
           greenTile.className = "greenTile";
           appendedChild.appendChild(greenTile);
           this.idsToClick.splice(correct, 1);
-          console.log(this.idsToClick);
           if(!this.idsToClick.length) this.loadNext();
         }
         else if(!appendedChild.firstChild)
@@ -98,18 +97,17 @@ export class LineFillerNewComponent{
   {
     if(this.level == 4) {
       const alert = await this.alertController.create({
-        header:"Brawo !!!",
-        message: "Udało ci Się rozwiązać Lekcje",
+        header:"Gratulacje Mistrzuniu !!!",
+        message: "Ukończyłeś cały rozdział",
         buttons: [
           {
-            text: 'ok'
+            text: 'Wiem'
           }
         ]
       })
       await alert.present();
       return 0;
     }
-    console.log("level "+this.level)
     switch(this.level){
       case 0: this.ids = [27, 57, 67, 87]; this.idsToClick = [17, 37, 47, 77]; break;
       case 1: this.ids = [52, 74, 85]; this.idsToClick = [41, 63]; break;

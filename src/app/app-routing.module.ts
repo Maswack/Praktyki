@@ -6,12 +6,6 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  {
-    path: 'line-filling',
-    loadChildren: () => import('./line-filling/line-filling.module').then( m => m.LineFillingPageModule)
-  },
-
-
 
 
 
