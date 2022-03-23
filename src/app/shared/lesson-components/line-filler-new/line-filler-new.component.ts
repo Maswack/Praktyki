@@ -3,7 +3,7 @@ import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-line-filler-new',
-  template: `<div #board id="board"></div>`,
+  template: `<div #board id="board-lesson1"></div>`,
   styleUrls: ['./line-filler-new.component.scss'],
 })
 export class LineFillerNewComponent{
@@ -121,11 +121,10 @@ export class LineFillerNewComponent{
       case 2: this.ids = [13, 31]; this.idsToClick = [22]; break;
       case 3: this.ids = [11, 33, 44, 66]; this.idsToClick = [22, 55, 77, 88]; break;
     }
-    const board = document.getElementById("board");
-    for(let i=0; i<64; i++) 
+    const board = document.getElementById("board-lesson1");
+    while(board.firstChild) 
     {
-      const orphan = document.getElementById(((i%8+1)*10 + (8-Math.floor(i/8))).toString());
-      board.removeChild(orphan);
+      board.removeChild(board.firstChild);
     }
     
     this.level++;
