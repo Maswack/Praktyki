@@ -3,15 +3,24 @@
     justify-content: center;
     display: block;
   }
-
-
-
   .file{
       width:30px;
       height:30px;
       background-color: brown;
   }
-
   #rankingLabel {
       display: flex;
   }
+.fun-room-banner{
+    background-color: #Fb4;
+    width:240px;
+    height: 140px;
+    border-radius: 20px;
+    opacity: 0.8;
+    padding: 10px;
+}
+.fun-room-banner-icon{
+    width:130px;
+    height: 130px;
+    float: right;
+}

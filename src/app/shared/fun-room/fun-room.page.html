@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Zadanka
+      Zabawa Pokój
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,22 +9,18 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Zadanka</ion-title>
+      <ion-title size="large">Zabawa Pokój</ion-title>
     </ion-toolbar>
   </ion-header>
   <div>
-    <ion-item>
-      <ion-button>Ranking: 1337</ion-button>
-    </ion-item>
-
-    <ngx-chess-board #board
-      [size] = "screenWidth"
-      (moveChange)="onPieceMove()"
-    ></ngx-chess-board>
-
-    <ion-item>
-    <ion-button><ion-icon name="list"></ion-icon>Wszystkie zadania</ion-button>
-    <ion-button><ion-icon name="stats-chart"></ion-icon>Statystyki</ion-button>
-    </ion-item>
+    <div #container>
+      <div class="fun-room-banner">
+        <h3 style="float: left;">Eater</h3>
+        <img src="../../../assets/bruh.jpg" alt="grubas" class="fun-room-banner-icon">
+        <ion-button (click) = "playFunRoom(0)">Graj</ion-button>
+      </div>
+    </div>
+  <ion-button #return id="returnButton" (click) = 'returnToFunRoom()' style="display:none">Powrót</ion-button>
   </div>
+  <app-game [games] = "games"></app-game>
 </ion-content>
