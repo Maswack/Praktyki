@@ -1,0 +1,11 @@
+#chessboard {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.chessTile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

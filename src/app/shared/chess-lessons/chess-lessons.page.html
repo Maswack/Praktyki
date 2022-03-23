@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Lekcje
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Lekcje</ion-title>
+    </ion-toolbar>
+  </ion-header>
+<ion-item><ion-button (click)="startLesson(0)"><ion-icon name="school"></ion-icon>Szachownica</ion-button></ion-item>
+<ion-item><ion-button (click)="startLesson(1)"><ion-icon name="school"></ion-icon>lekcja 2</ion-button></ion-item>
+<div class="ad-banner-example">
+  <app-lesson [lessons] = "lessons"></app-lesson>
+</div>
+
+</ion-content>
+
+
+
+
+

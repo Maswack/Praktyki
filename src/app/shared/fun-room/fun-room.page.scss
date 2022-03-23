@@ -1,0 +1,17 @@
+#chessboard{
+    width: 100vw;
+    justify-content: center;
+    display: block;
+  }
+
+
+
+  .file{
+      width:30px;
+      height:30px;
+      background-color: brown;
+  }
+
+  #rankingLabel {
+      display: flex;
+  }
