@@ -122,9 +122,9 @@ export class LineFillerNewComponent{
       case 3: this.ids = [11, 33, 44, 66]; this.idsToClick = [22, 55, 77, 88]; break;
     }
     const board = document.getElementById("board");
-    while(board.firstChild) 
+    for(let i=0; i<64; i++) 
     {
-      const orphan = board.firstChild;
+      const orphan = document.getElementById(((i%8+1)*10 + (8-Math.floor(i/8))).toString());
       board.removeChild(orphan);
     }
     
