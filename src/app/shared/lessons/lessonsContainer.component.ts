@@ -33,9 +33,16 @@ export class LessonContainerComponent implements OnInit, OnDestroy {
     const LessonItem = this.lessons[lessonIndex];
 
     const viewContainerRef = this.lessonHost.viewContainerRef;
+    //Do wylączania Lekcji
     viewContainerRef.clear();
 
     const componentRef = viewContainerRef.createComponent<LessonComponent>(LessonItem.component);
     componentRef.instance.data = LessonItem.data;
+  }
+
+  unloadComponent() {
+    const viewContainerRef = this.lessonHost.viewContainerRef;
+
+    viewContainerRef.clear();
   }
 }

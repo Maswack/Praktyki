@@ -4,22 +4,28 @@ import { LessonService } from './lesson.service';
 import { LessonContainerComponent } from './lessonsContainer.component';
 import { LessonDirective } from './lesson.directive';
 import { LessonChessboardComponent } from './lesson-chessboard.component';
-import { LineSelectorNewComponent } from '../lesson-components/line-selector-new/line-selector-new.component';
+import { NgxChessBoardModule } from 'ngx-chess-board';
 
+import { RookLessonComponent } from '../lesson-components/rook-lesson/rook-lesson.component';
+import { BishopLessonComponent } from '../lesson-components/bishop-lesson/bishop-lesson.component';
+import { QueenLessonComponent } from '../lesson-components/queen-lesson/queen-lesson.component';
 
 @NgModule({
   imports: [
-    IonicModule
+    IonicModule,
+    NgxChessBoardModule.forRoot(),
   ],
   exports: [
-    LessonContainerComponent
+    LessonContainerComponent,
   ],
   providers: [ LessonService ],
   declarations: [
     LessonContainerComponent,
     LessonChessboardComponent,
-    LineSelectorNewComponent,
-    LessonDirective
+    LessonDirective,
+    BishopLessonComponent,
+    RookLessonComponent,
+    QueenLessonComponent
   ],
 })
 
