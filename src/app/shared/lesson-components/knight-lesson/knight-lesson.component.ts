@@ -1,9 +1,9 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, Renderer2, ViewChild, ElementRef} from '@angular/core';
+import { AlertController, Platform } from '@ionic/angular';
 import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';
-import { Platform, AlertController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-bishop-lesson',
+  selector: 'app-knight-lesson',
   template: `
     <ngx-chess-board #board 
     [size] = "screenWidth"
@@ -12,29 +12,30 @@ import { Platform, AlertController } from '@ionic/angular';
     (moveChange) = "moveChange()"
     ></ngx-chess-board>
   `,
-  styleUrls: ['./bishop-lesson.component.scss'],
+  styleUrls: ['./knight-lesson.component.scss'],
 })
-export class BishopLessonComponent {
+export class KnightLessonComponent {
 
-  positions = "1r6/r7/3B4/8/8/8/8/6r1 w - - 0 1,3r4/4B3/5r2/8/3r4/8/8/6r1 w - - 0 1,1r3r2/r7/7r/8/1B6/r3r3/8/6r1 w - - 0 1,3r3r/8/1r3r2/4P3/3B4/8/8/8 w - - 0 1,4r3/5P2/6r1/7r/r7/3B4/8/3r4 w - - 0 1"
-  anwsers = "d6b8,b8a7,a7g1/e7d8,d8f6,f6d4,d4g1/b4a3,a3f8,f8h6,h6e3,e3g1,g1a7,a7b8/d4b6,b6d8,d8f6,f6h8/d3g6,g6h5,h5d1,d1a4,a4e8";
-  animationMoves = "1B6/r7/8/8/8/8/8/6r1 w - - 0 1,8/B7/8/8/8/8/8/6r1 w - - 0 1,8/8/8/8/8/8/8/6B1 w - - 0 1";
-  screenWidth: number;
-  fen: string;
-  isNotAnimation = false;
+  positions = "8/5p2/3p4/1p6/8/2p5/8/1N6 w - - 0 1,8/1p6/8/2p5/5p2/3pN3/6p1/8 w - - 0 1,8/6P1/2rP4/5N2/1p6/4p3/2p5/8 w - - 0 1,8/1p1p4/8/p1p1p3/P1P3r1/5PP1/5N2/8 w - - 0 1,8/8/3p1p2/1p1prp2/7p/2pN1p2/8/8 w - - 0 1";
+  anwsers = "b1c3,c3b5,b5d6,d6f7/e3g2,g2f4,f4d3,d3c5,c5b7/f5e3,e3c2,c2b4,b4c6/f2g4,g4e5,e5d7,d7c5,c5b7,b7a5/d3e5,e5f3,f3h4,h4f5,f5d6,d6b5,b5c3,c3d5,d5f6";
+  animationMoves = "8/5p2/3p4/1p6/8/2N5/8/8 w - - 0 1,8/5p2/3p4/1N6/8/8/8/8 w - - 0 1,8/5p2/3N4/8/8/8/8/8 w - - 0 1,8/5N2/8/8/8/8/8/8 w - - 0 1";
   lesson = 0;
+  isNotAnimation = false;
   moveIndex = 0;
+  screenWidth: string;
+  fen: string;
+  
 
   constructor(
-      private element: ElementRef,
-      private platform: Platform, 
-      private ngxChessBoardService: NgxChessBoardService,
-      public renderer: Renderer2,
-      private alertController: AlertController,
-    ) 
-  { 
-    platform.ready().then( () => {
-      this.screenWidth = platform.width();
+    private platform: Platform,
+    private renderer: Renderer2, 
+    private alertController: AlertController,
+    private ngxChessBoardService: NgxChessBoardService,
+    public element: ElementRef
+    
+    ) {
+    this.platform.ready().then(() => {
+      this.screenWidth = "" + platform.width();
       
       setTimeout(() => {
         this.setUpThePosition();
@@ -43,7 +44,6 @@ export class BishopLessonComponent {
       setTimeout(() => {
         this.playAnimation();
       }, 250)
-
     })
   }
 
@@ -130,5 +130,6 @@ export class BishopLessonComponent {
     }, time)
     
   }
+
 
 }

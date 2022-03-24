@@ -7,6 +7,7 @@ import { LineFillerNewComponent } from '../lesson-components/line-filler-new/lin
 import { RookLessonComponent } from '../lesson-components/rook-lesson/rook-lesson.component';
 import { BishopLessonComponent } from '../lesson-components/bishop-lesson/bishop-lesson.component';
 import { QueenLessonComponent } from '../lesson-components/queen-lesson/queen-lesson.component';
+import { KnightLessonComponent } from '../lesson-components/knight-lesson/knight-lesson.component';
 
 @Injectable()
 export class LessonService {
@@ -30,6 +31,10 @@ export class LessonService {
       ),
       new LessonItem(
         QueenLessonComponent,
+        {}
+      ),
+      new LessonItem(
+        KnightLessonComponent,
         {}
       )
     ];

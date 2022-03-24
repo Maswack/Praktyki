@@ -16,8 +16,8 @@ import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';
 })
 export class QueenLessonComponent {
 
-  positions = "4p3/8/2p5/8/8/2Q5/p3p3/8 w - - 0 1,6p1/p1p5/8/4Q3/5p2/8/p7/8 w - - 0 1,8/6p1/1p2p3/8/8/2pQ1p2/p7/6p1 w - - 0 1";
-  anwsers = "c3c6,c6e8,e8e2,e2a2/e5f4,f4c7,c7a7,a7a2,a2g8/d3f3,f3c3,c3g7,g7g1,g1b6,b6e6,e6a2";
+  positions = "4p3/8/2p5/8/8/2Q5/p3p3/8 w - - 0 1,6p1/p1p5/8/4Q3/5p2/8/p7/8 w - - 0 1,8/6p1/1p2p3/8/8/2pQ1p2/p7/6p1 w - - 0 1,5p2/8/1p3P1p/6P1/8/4Q3/1p5p/8 w - - 0 1,8/3p3p/3P4/8/p2P1p2/3Q4/p4p2/8 w - - 0 1";
+  anwsers = "c3c6,c6e8,e8e2,e2a2/e5f4,f4c7,c7a7,a7a2,a2g8/d3f3,f3c3,c3g7,g7g1,g1b6,b6e6,e6a2/e3b6,b6b2,b2h2,h2h6,h6f8/d3h7,h7d7,d7a4,a4a2,a2f2,f2f4";
   animationMoves = "4p3/8/2Q5/8/8/8/p3p3/8 w - - 0 1,4Q3/8/8/8/8/8/p3p3/8 w - - 0 1,8/8/8/8/8/8/p3Q3/8 w - - 0 1,8/8/8/8/8/8/Q7/8 w - - 0 1";
   lesson = 0;
   isNotAnimation = false;
@@ -111,12 +111,15 @@ export class QueenLessonComponent {
 
 
   playAnimation() {
+    const length = this.animationMoves.split(',').length;
+    const time = 400 * (length + 1);
+
     const x = setInterval(() => {
       const move = this.animationMoves.split(',')[this.moveIndex];
       this.board.setFEN(move);
       this.moveIndex += 1;
       
-      if(this.moveIndex == 4){
+      if(this.moveIndex == length){
         clearInterval(x);
       }
     }, 400);
@@ -124,7 +127,7 @@ export class QueenLessonComponent {
     setTimeout(() => {
       this.isNotAnimation = true;
       this.setUpThePosition();
-    }, 2000)
+    }, time)
     
   }
 

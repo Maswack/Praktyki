@@ -9,6 +9,7 @@ import { NgxChessBoardModule } from 'ngx-chess-board';
 import { RookLessonComponent } from '../lesson-components/rook-lesson/rook-lesson.component';
 import { BishopLessonComponent } from '../lesson-components/bishop-lesson/bishop-lesson.component';
 import { QueenLessonComponent } from '../lesson-components/queen-lesson/queen-lesson.component';
+import { KnightLessonComponent } from '../lesson-components/knight-lesson/knight-lesson.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { QueenLessonComponent } from '../lesson-components/queen-lesson/queen-le
     LessonDirective,
     BishopLessonComponent,
     RookLessonComponent,
-    QueenLessonComponent
+    QueenLessonComponent,
+    KnightLessonComponent,
   ],
 })
 
