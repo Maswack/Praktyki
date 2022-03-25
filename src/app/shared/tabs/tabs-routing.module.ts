@@ -9,19 +9,19 @@ const routes: Routes = [
     children: [
       {
         path: 'tab1',
-        loadChildren: () => import('../play-chess/play-chess.module').then(m => m.Tab1PageModule)
+        loadChildren: () => import('../../features/play-chess/play-chess.module').then(m => m.Tab1PageModule)
       },
       {
         path: 'tab2',
-        loadChildren: () => import('../fun-room/fun-room.module').then(m => m.Tab2PageModule)
+        loadChildren: () => import('../../features/fun-room/fun-room.module').then(m => m.Tab2PageModule)
       },
       {
         path: 'tab3',
-        loadChildren: () => import('../chess-lessons/chess-lessons.module').then(m => m.Tab3PageModule)
+        loadChildren: () => import('../../features/chess-lessons/chess-lessons.module').then(m => m.Tab3PageModule)
       },
       {
         path: 'tab4',
-        loadChildren: () => import('../chess-ranking/chess-ranking.module').then(m => m.Tab4PageModule)
+        loadChildren: () => import('../../features/chess-ranking/chess-ranking.module').then(m => m.Tab4PageModule)
       },
       {
         path: '',

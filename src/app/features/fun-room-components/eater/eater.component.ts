@@ -2,7 +2,7 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { NgxChessBoardService } from 'ngx-chess-board';
 import { NgxChessBoardView } from 'ngx-chess-board';
-import { StorageService } from '../../storage.service/storage.service';
+import { StorageService } from '../../../shared/storage.service/storage.service';
 
 @Component({
   selector: 'app-Eater',

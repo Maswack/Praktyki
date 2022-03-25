@@ -1,7 +1,7 @@
 import { getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { StorageService } from '../storage.service/storage.service';
+import { StorageService } from '../../shared/storage.service/storage.service';
 
 @Component({
   selector: 'app-tab4',
