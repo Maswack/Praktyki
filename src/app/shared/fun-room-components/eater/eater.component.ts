@@ -2,6 +2,7 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { NgxChessBoardService } from 'ngx-chess-board';
 import { NgxChessBoardView } from 'ngx-chess-board';
+import { StorageService } from '../../storage.service/storage.service';
 
 @Component({
   selector: 'app-Eater',
@@ -38,6 +39,7 @@ export class EaterComponent{
   completedLevels = [];
   goodAnswers = 0;
   constructor(
+      private storageService: StorageService,
       private renderer: Renderer2, 
       private element: ElementRef, 
       public alertController: AlertController,
@@ -58,6 +60,8 @@ export class EaterComponent{
   }
   async startEater()
   {
+    this.storageService.addData(this.stats);
+
     this.board.setFEN(this.fen[this.level]);
     setTimeout(() => {
     const chessboardChildren = this.chessboard.nativeElement.children[0].children[0].children;

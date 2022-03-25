@@ -1,5 +1,7 @@
+import { getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { StorageService } from '../storage.service/storage.service';
 
 @Component({
   selector: 'app-tab4',
@@ -8,8 +10,15 @@ import { AlertController } from '@ionic/angular';
 })
 export class Tab4Page implements OnInit {
 
-  constructor(public alertController: AlertController) { }
+  constructor(public alertController: AlertController, private storageService: StorageService) { 
+    this.getData();
+  }
 
+  async getData()
+  {
+    const data = await this.storageService.getData()
+    console.log(data[0]);
+  }
   ngOnInit() {
   }
 
