@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Renderer2, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AlertController, Platform } from '@ionic/angular';
@@ -20,9 +20,9 @@ export class LineSelectorNewComponent {
 
   @Input() lessonLeft: string;
 
+  private tileClickListener: () => void;
 
-
-  constructor(private platform: Platform, public alertController: AlertController, public router: Router) {
+  constructor(private platform: Platform, public alertController: AlertController, public router: Router, private renderer: Renderer2) {
     this.platform.ready().then(() => {
         this.screenWidth = "" + platform.width();
         this.chessLessons = "a1,a2,a3,a4,a5,a6,a7,a8/a7,b7,c7,d7,e7,f7,g7,h7/d1,d2,d3,d4,d5,d6,d7,d8/a4,b4,c4,d4,e4,f4,g4,h4/h8,h7,h6,h5,h4,h3,h2,h1";
@@ -49,7 +49,11 @@ export class LineSelectorNewComponent {
       //tile.style.backgroundColor = ( (i + Math.floor(i/8)) % 2 == 0) ? "#BAA378" : "rgb(97, 84, 61)" ;
 
       arrayOfTiles[i].id = index1+index2;
-      arrayOfTiles[i].addEventListener('click', (e) => this.checkIfCorrect(e))
+      
+      this.tileClickListener = this.renderer.listen(arrayOfTiles[i], "click", event => {
+        this.checkIfCorrect(event);
+      })
+
     }
     //this.lesson
     this.setupLesson(this.lesson);
@@ -203,5 +207,8 @@ export class LineSelectorNewComponent {
 
   }
 
+  ngOnDestroy() {
+    this.tileClickListener();
+  }
 
 }

@@ -1,10 +1,9 @@
 import { Component, Renderer2, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';;
-//import { ChessboardComponentComponent } from '../chessboard-component/chessboard-component.component';
 
 @Component({
-  selector: 'app-rook-lesson-select',
+  selector: 'app-queen-lesson-select',
   template: `
     <ngx-chess-board #board 
     [size] = "screenWidth"
@@ -16,13 +15,13 @@ import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';;
 
     <div #chessPlane id="chessPlane" [style.width.px]="width" [style.top.px]="boardTop"></div>
   `,
-  styleUrls: ['./rook-lesson-select.component.scss'],
+  styleUrls: ['./queen-lesson-select.component.scss'],
 })
-export class RookLessonSelectComponent {
+export class QueenLessonSelectComponent {
 
-  positions = "8/8/8/8/3R4/8/8/8 w - - 0 1,7R/8/8/8/8/8/8/8 w - - 0 1,8/8/8/2P1R3/8/8/8/8 w - - 0 1,8/2P5/8/8/2R5/2P5/8/8 w - - 0 1,8/8/8/2P1R3/8/5P2/8/8 w - - 0 1,8/8/8/8/8/8/8/8 w - - 0 1";
-  anwsers = "d3,d2,d1,d5,d6,d7,d8,h4,g4,f4,e4,c4,b4,a4/a8,b8,c8,d8,e8,f8,g8,h7,h6,h5,h4,h3,h2,h1/d5,f5,g5,h5,e1,e2,e3,e4,e6,e7,e8/c5,c6,a4,b4,d4,e4,f4,g4,h4/d5,f5,g5,h5,e1,e2,e3,e4,e6,e7,e8"
-  fen = "8/8/8/8/3R4/8/8/8 w - - 0 1";
+  positions = "8/8/8/3Q4/8/8/8/8 w - - 0 1,Q7/8/8/8/8/8/8/8 w - - 0 1,1Q6/1P6/8/8/8/8/8/8 w - - 0 1,8/8/3P4/2PQP3/3P4/8/8/8 w - - 0 1,8/8/2P1P3/3Q4/2P1P3/8/8/8 w - - 0 1,8/8/8/8/8/8/8/8 w - - 0 1";
+  anwsers = "d1,d2,d3,d4,d6,d7,d8,a5,b5,c5,e5,f5,g5,h5,h1,g2,f3,e4,c6,b7,a8,a2,b3,c4,e6,f7,g8/a1,a2,a3,a4,a5,a6,a7,b8,c8,d8,e8,f8,g8,h8,b7,c6,d5,e4,f3,g2,h1/a8,c8,d8,e8,f8,g8,h8,a7,c7,d6,e5,f4,g3,h2/a2,b3,c4,e6,f7,g8,h1,g2,f3,e4,c6,b7,a8/d1,d2,d3,d4,d6,d7,d8,a5,b5,c5,e5,f5,g5,h5"
+  fen = "8/8/8/3Q4/8/8/8/8 w - - 0 1";
 
   lesson = 0;
   boardTop = 130;
@@ -203,5 +202,5 @@ export class RookLessonSelectComponent {
   ngOnDestroy() {
     this.tileListener();
   }
-  
+
 }
