@@ -14,18 +14,18 @@
   </ion-header>
 
   <ion-avatar>
-    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-  </ion-avatar>
-  
+    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" #avatar>
+  </ion-avatar><br>
+  <h2>Staystyki w grze Eater:</h2>
   <ion-list>
     <ion-item>
-      <ion-label>Ranking: 1337</ion-label>
+      <ion-label class="statsProfile"><strong class="statsNumber">{{ statsEater.completed }}</strong> Ukończonych zadań: </ion-label>
     </ion-item>
     <ion-item>
-      <ion-label>Najwyższy ranking: 1337</ion-label>
+      <ion-label class="statsProfile"><strong class="statsNumber">{{ statsEater.clickedRight }}</strong> Poprawnie zaznaczonych bierek: </ion-label>
     </ion-item>
     <ion-item>
-      <ion-label>Ranking w Zadankach: 2137</ion-label>
+      <ion-label class="statsProfile"><strong class="statsNumber">{{ statsEater.clickedWrong }}</strong> Błędnie zaznaczonych bierek:</ion-label>
     </ion-item>
   </ion-list>
   <ion-button (click)="handleButtonClick()"><ion-icon name="log-out-outline"></ion-icon>Wyloguj</ion-button>

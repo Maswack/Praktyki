@@ -1,6 +1,6 @@
-import { getLocaleDateFormat } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { TabsPage } from 'src/app/shared/tabs/tabs.page';
 import { StorageService } from '../../shared/storage.service/storage.service';
 
 @Component({
@@ -10,16 +10,24 @@ import { StorageService } from '../../shared/storage.service/storage.service';
 })
 export class Tab4Page implements OnInit {
 
-  constructor(public alertController: AlertController, private storageService: StorageService) { 
-    this.getData();
-  }
+  statsEater = {
+    clickedRight: 1337,
+    clickedWrong: 69,
+    timeSpent: 420,
+    completed: 666
+  };
 
-  async getData()
+  constructor(public alertController: AlertController, private storageService: StorageService, private tabs: TabsPage, private renderer: Renderer2) { 
+  }
+  async updateData()
   {
     const data = await this.storageService.getData()
-    console.log(data[0]);
+    this.statsEater = data[0].eater;
   }
   ngOnInit() {
+
+    this.updateData()
+    this.renderer.listen(this.tabs.tab4.nativeElement, "click", ()=>{this.updateData()})
   }
 
   async handleButtonClick() {

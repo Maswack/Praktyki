@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StorageService } from 'src/app/shared/storage.service/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private storageService: StorageService) {
+    this.ifFirstLogin();
+  }
+  async ifFirstLogin()
+  {
+    const data = await this.storageService.getData();
+    if(!data) this.storageService.firstLogin();
+  }
 }
