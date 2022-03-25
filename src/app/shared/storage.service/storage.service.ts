@@ -32,13 +32,13 @@ export class StorageService {
       }
     })
     this.addData({
-      line: 0,
-      line2: 0,
-      rook: 0,
-      bishop: 0,
-      queen: 0,
-      knight: 0,
-      totalMistakes: 0
+      line: false,
+      line2: false,
+      rook: false,
+      bishop: false,
+      queen: false,
+      knight: false,
+      totalMistakes: false
     })
   }
 
