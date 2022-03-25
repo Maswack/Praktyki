@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-tabs',
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
 export class TabsPage {
 
   constructor() {}
+  @ViewChild('tab4', {read: ElementRef}) tab4: ElementRef;
 
 }

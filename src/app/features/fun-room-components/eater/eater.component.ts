@@ -7,6 +7,7 @@ import { StorageService } from '../../../shared/storage.service/storage.service'
 @Component({
   selector: 'app-Eater',
   template: `
+  <div id="howToPlay" #howToPlay>Znajdź wszystkie legalne bicia w pozycji, przejdź do następnych przykładów i zdobądź jak najwięcej punktów. Udanej zabawy!</div>
   <ngx-chess-board #board id="chessboardEater"
   [darkDisabled] = "true"
   [lightDisabled] = "true"
@@ -47,21 +48,34 @@ export class EaterComponent{
       platform: Platform) {
         platform.ready().then(() => {
           this.screenWidth = platform.width();
-        });}
+        });
+      this.getStatistics();
+      }
+    async getStatistics()
+    {
+      const data = await this.storageService.getData();
+      this.stats = data[0].eater;
+    }
     
   @ViewChild('board') board: NgxChessBoardView;
   @ViewChild('board', {read: ElementRef}) chessboard: ElementRef;
+  @ViewChild('howToPlay', {read: ElementRef}) howToPlay: ElementRef;
 
   reset() {
     this.board.reset();
   }
-  ngAfterViewInit()
+
+  async updateDatabase()
   {
+    const data = await this.storageService.getData();
+    const funRoomData = data[0];
+    funRoomData.eater = this.stats;
+    this.storageService.updateData(funRoomData, 0)
   }
+
   async startEater()
   {
-    this.storageService.addData(this.stats);
-
+    this.howToPlay.nativeElement.style.display = "none";
     this.board.setFEN(this.fen[this.level]);
     setTimeout(() => {
     const chessboardChildren = this.chessboard.nativeElement.children[0].children[0].children;
@@ -85,8 +99,13 @@ export class EaterComponent{
       const clickedPiecePosition = pieceNode.style.transform;
       this.renderer.setAttribute(pieceNode, "style", "background-color: rgba(0, 255, 0, 0.7); transform: "+clickedPiecePosition+"; max-height: 34.375px; font-size: 27.5px; width: 34.375px; height: 34.375px; pointerevents: none;")
       this.goodAnswers++;
+      this.stats.clickedRight++;
+
       if(this.goodAnswers == this.correctPieces[this.level].length && this.completedLevels.length < this.fen.length-1)
       {
+        this.stats.completed++;
+        this.updateDatabase();
+
         this.completedLevels.push(this.level)
         while(true)
         {
@@ -104,6 +123,7 @@ export class EaterComponent{
     }
     else
     {
+      this.stats.clickedWrong++;
       const clickedPiecePosition = pieceNode.style.transform;
       this.renderer.setAttribute(pieceNode, "style", "background-color: rgba(255, 0, 0, 0.7); transform: "+clickedPiecePosition+"; max-height: 34.375px; font-size: 27.5px; width: 34.375px; height: 34.375px; pointerevents: none;")
     }

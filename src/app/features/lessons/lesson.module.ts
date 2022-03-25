@@ -13,6 +13,9 @@ import { QueenLessonComponent } from '../lesson-components/queen-lesson/queen-le
 import { KnightLessonComponent } from '../lesson-components/knight-lesson/knight-lesson.component';
 
 import { RookLessonSelectComponent } from '../lesson-components/rook-lesson-select/rook-lesson-select.component';
+import { BishopLessonSelectComponent } from '../lesson-components/bishop-lesson-select/bishop-lesson-select.component';
+import { QueenLessonSelectComponent } from '../lesson-components/queen-lesson-select/queen-lesson-select.component';
+import { KnightLessonSelectComponent } from '../lesson-components/knight-lesson-select/knight-lesson-select.component';
 
 @NgModule({
   imports: [
@@ -34,6 +37,9 @@ import { RookLessonSelectComponent } from '../lesson-components/rook-lesson-sele
     
     
     RookLessonSelectComponent,
+    BishopLessonSelectComponent,
+    QueenLessonSelectComponent,
+    KnightLessonSelectComponent
   ],
 })
 

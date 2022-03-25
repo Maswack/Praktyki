@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2, ViewChild, OnDestroy } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -21,7 +21,10 @@ export class LineFillerNewComponent{
      this.makeGreen();
      this.createFinger(0);
   }
+
   @Input() timer : any;
+  private listener: () => void;
+
 
   async makeChess()
   {
@@ -39,7 +42,9 @@ export class LineFillerNewComponent{
       let timeToTimeout = 0;
       if(!this.level) timeToTimeout = 2000;
       setTimeout( () =>
-      appendedChild.addEventListener("click", () => {
+
+      this.listener = this.renderer.listen(appendedChild, "click", () => 
+      {
         let correct = -1;
         for(let i = 0; i < this.idsToClick.length; i++)
         {
@@ -103,14 +108,6 @@ export class LineFillerNewComponent{
       const alert = await this.alertController.create({
         header:"Gratulacje Mistrzuniu !!!",
         message: "Ukończyłeś cały rozdział",
-        buttons: [
-          {
-            text: 'meh, zbyt łatwe'
-          },
-          {
-            text: 'LETS GOOOOOOO'
-          }
-        ]
       })
       await alert.present();
       return 0;
@@ -130,5 +127,9 @@ export class LineFillerNewComponent{
     this.level++;
     this.makeChess();
     this.makeGreen();
+  }
+
+  ngOnDestroy() {
+    this.listener();
   }
 }
