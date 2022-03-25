@@ -161,17 +161,6 @@ export class LineSelectorNewComponent {
   }
 
   async handleTheEndOfLesson() {
-    const alert = await this.alertController.create({
-      header:"Brawo !!!",
-      message: "Udało ci Się rozwiązać Lekcje",
-      buttons: [
-        {
-          text: 'ok'
-        }
-      ]
-    })
-
-    await alert.present();
     await this.nextLesson();
   }
 

@@ -1,82 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 @Component({
-  selector: 'chessboard-component',
-  template: `
-    <div id="chessBoardComponent">
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-      <div class="white"></div>
-      <div class="black"></div>
-    </div>
-
-  `,
+  selector: 'chessboardComponent',
+  templateUrl: './chessboard-component.component.html',
   styleUrls: ['./chessboard-component.component.scss'],
 })
-export class ChessboardComponentComponent implements OnInit {
+export class ChessboardComponentComponent {
+  
+  constructor(private renderer: Renderer2) {
 
-  constructor() { }
-
-  ngOnInit() {}
-
+  }
 }

@@ -22,6 +22,8 @@ import { Tab3PageRoutingModule } from './chess-lessons-routing.module';
     LessonModule,
     
   ],
-  declarations: [Tab3Page]
+  declarations: [Tab3Page],
+  exports: [
+  ]
 })
 export class Tab3PageModule {}

@@ -9,6 +9,8 @@ import { BishopLessonComponent } from '../lesson-components/bishop-lesson/bishop
 import { QueenLessonComponent } from '../lesson-components/queen-lesson/queen-lesson.component';
 import { KnightLessonComponent } from '../lesson-components/knight-lesson/knight-lesson.component';
 
+import { RookLessonSelectComponent } from '../lesson-components/rook-lesson-select/rook-lesson-select.component';
+
 @Injectable()
 export class LessonService {
   getLessons() {
@@ -35,6 +37,10 @@ export class LessonService {
       ),
       new LessonItem(
         KnightLessonComponent,
+        {}
+      ),
+      new LessonItem(
+        RookLessonSelectComponent,
         {}
       )
     ];
