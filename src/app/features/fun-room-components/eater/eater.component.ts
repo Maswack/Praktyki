@@ -7,7 +7,7 @@ import { StorageService } from '../../../shared/storage.service/storage.service'
 @Component({
   selector: 'app-Eater',
   template: `
-  <div id="howToPlay">Znajdź wszystkie legalne bicia w pozycji, przejdź do następnych przykładów i zdobądź jak najwięcej punktów. Udanej zabawy!</div>
+  <div id="howToPlay" #howToPlay>Znajdź wszystkie legalne bicia w pozycji, przejdź do następnych przykładów i zdobądź jak najwięcej punktów. Udanej zabawy!</div>
   <ngx-chess-board #board id="chessboardEater"
   [darkDisabled] = "true"
   [lightDisabled] = "true"
@@ -59,6 +59,7 @@ export class EaterComponent{
     
   @ViewChild('board') board: NgxChessBoardView;
   @ViewChild('board', {read: ElementRef}) chessboard: ElementRef;
+  @ViewChild('howToPlay', {read: ElementRef}) howToPlay: ElementRef;
 
   reset() {
     this.board.reset();
@@ -74,6 +75,7 @@ export class EaterComponent{
 
   async startEater()
   {
+    this.howToPlay.nativeElement.style.display = "none";
     this.board.setFEN(this.fen[this.level]);
     setTimeout(() => {
     const chessboardChildren = this.chessboard.nativeElement.children[0].children[0].children;
