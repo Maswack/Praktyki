@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { AlertController, Platform } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-line-selector-new',
   templateUrl: './line-selector-new.component.html',
@@ -31,9 +32,6 @@ export class LineSelectorNewComponent {
         this.lessonLeft = "0,1,2,3,4";
 
         const chessboard = document.getElementById("chessBoardComponent")
-        chessboard.style.display="flex";
-        chessboard.style.flexWrap="wrap";
-        chessboard.style.flexDirection="column";
 
         this.createChessboard(chessboard)
     })
@@ -80,7 +78,7 @@ export class LineSelectorNewComponent {
     line.style.width = width;
     line.style.height = height;
     if(orientation == "right")
-      line.style.top = (top * 34.5 + 202) + "px";
+      line.style.top = (top * 34.5 + 130) + "px";
       else {
         line.style.left = (top * 34.5) + "px";
       }
@@ -163,17 +161,6 @@ export class LineSelectorNewComponent {
   }
 
   async handleTheEndOfLesson() {
-    const alert = await this.alertController.create({
-      header:"Brawo !!!",
-      message: "Udało ci Się rozwiązać Lekcje",
-      buttons: [
-        {
-          text: 'ok'
-        }
-      ]
-    })
-
-    await alert.present();
     await this.nextLesson();
   }
 

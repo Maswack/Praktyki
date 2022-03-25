@@ -4,6 +4,12 @@ import { LineSelectorNewComponent } from '../lesson-components/line-selector-new
 
 import { LessonItem } from './lesson-item';
 import { LineFillerNewComponent } from '../lesson-components/line-filler-new/line-filler-new.component';
+import { RookLessonComponent } from '../lesson-components/rook-lesson/rook-lesson.component';
+import { BishopLessonComponent } from '../lesson-components/bishop-lesson/bishop-lesson.component';
+import { QueenLessonComponent } from '../lesson-components/queen-lesson/queen-lesson.component';
+import { KnightLessonComponent } from '../lesson-components/knight-lesson/knight-lesson.component';
+
+import { RookLessonSelectComponent } from '../lesson-components/rook-lesson-select/rook-lesson-select.component';
 
 @Injectable()
 export class LessonService {
@@ -16,6 +22,26 @@ export class LessonService {
       new LessonItem(
         LineFillerNewComponent,
         { name: 'Lekcja2', desc: 'Uzupełnianie linii' }
+      ),
+      new LessonItem(
+        RookLessonComponent,
+        {}
+      ),
+      new LessonItem(
+        BishopLessonComponent,
+        {}
+      ),
+      new LessonItem(
+        QueenLessonComponent,
+        {}
+      ),
+      new LessonItem(
+        KnightLessonComponent,
+        {}
+      ),
+      new LessonItem(
+        RookLessonSelectComponent,
+        {}
       )
     ];
   }
