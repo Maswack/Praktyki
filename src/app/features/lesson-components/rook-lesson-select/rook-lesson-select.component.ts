@@ -1,7 +1,7 @@
 import { Component, Renderer2, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';;
-//import { ChessboardComponentComponent } from '../chessboard-component/chessboard-component.component';
+import { StorageService } from 'src/app/shared/storage.service/storage.service'; 
 
 @Component({
   selector: 'app-rook-lesson-select',
@@ -24,6 +24,7 @@ export class RookLessonSelectComponent {
   anwsers = "d3,d2,d1,d5,d6,d7,d8,h4,g4,f4,e4,c4,b4,a4/a8,b8,c8,d8,e8,f8,g8,h7,h6,h5,h4,h3,h2,h1/d5,f5,g5,h5,e1,e2,e3,e4,e6,e7,e8/c5,c6,a4,b4,d4,e4,f4,g4,h4/d5,f5,g5,h5,e1,e2,e3,e4,e6,e7,e8"
   fen = "8/8/8/8/3R4/8/8/8 w - - 0 1";
 
+  actualLessonData: any;
   lesson = 0;
   boardTop = 130;
   screenWidth: string;
@@ -36,14 +37,15 @@ export class RookLessonSelectComponent {
   @ViewChild('chessPlane') chessPlane: ElementRef;
 
   private tileListener: () => void
-
+  
 
   constructor(
     private platform: Platform,
     private renderer: Renderer2, 
     private alertController: AlertController,
     private ngxChessBoardService: NgxChessBoardService,
-    public element: ElementRef
+    public element: ElementRef,
+    private storageService: StorageService,
     
     ) { 
       this.platform.ready().then( () => {
@@ -64,6 +66,13 @@ export class RookLessonSelectComponent {
 
     this.setFen();
     this.setPlaneOfChess();
+    this.getData();
+  }
+
+  async getData() {
+    const data = await this.storageService.getData();
+
+    this.actualLessonData = data[2];
   }
 
   reset() {
@@ -196,12 +205,20 @@ export class RookLessonSelectComponent {
       message: "Ukończyłeś cały rozdział"
     })
 
+    await this.updateActualLessonData();
     await alert.present();
   }
 
 
   ngOnDestroy() {
     this.tileListener();
+  }
+
+  async updateActualLessonData() {
+    const lessonData = this.actualLessonData;
+
+    lessonData.isActualLessonDone = true;
+    await this.storageService.updateData(lessonData, 2);
   }
   
 }

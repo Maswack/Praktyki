@@ -1,6 +1,7 @@
 import { Component, Renderer2, ViewChild, ElementRef} from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';
+import { StorageService } from 'src/app/shared/storage.service/storage.service';
 
 @Component({
   selector: 'app-rook-lesson',
@@ -24,6 +25,7 @@ export class RookLessonComponent {
   moveIndex = 0;
   screenWidth: string;
   fen: string;
+  actualLessonData: any;
   
 
   constructor(
@@ -31,7 +33,8 @@ export class RookLessonComponent {
     private renderer: Renderer2, 
     private alertController: AlertController,
     private ngxChessBoardService: NgxChessBoardService,
-    public element: ElementRef
+    public element: ElementRef,
+    private storageService: StorageService,
     
     ) {
     this.platform.ready().then(() => {
@@ -47,8 +50,17 @@ export class RookLessonComponent {
     })
   }
 
+  ngAfterViewInit() {
+    this.getData();
+  }
+
   @ViewChild('board') board: NgxChessBoardView;
 
+  async getData() {
+    const data = await this.storageService.getData();
+
+    this.actualLessonData = data[2];
+  }
   reset() {
     this.board.reset();
   }
@@ -94,8 +106,8 @@ export class RookLessonComponent {
       }
 
     } else {
-      this.undoMove();
-    }
+        this.undoMove();
+      }
     }
     
   }
@@ -107,6 +119,7 @@ export class RookLessonComponent {
     })
 
     await alert.present();
+    await this.updateActualLessonData();
   }
 
 
@@ -129,5 +142,13 @@ export class RookLessonComponent {
       this.setUpThePosition();
     }, time)
     
+  }
+
+  async updateActualLessonData() {
+    console.log("works")
+    const lessonData = this.actualLessonData;
+
+    lessonData.isActualLessonDone = true;
+    await this.storageService.updateData(lessonData, 2);
   }
 }

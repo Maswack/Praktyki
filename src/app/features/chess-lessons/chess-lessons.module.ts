@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { Tab3Page } from './chess-lessons.page';
 import { LessonModule } from '../lessons/lesson.module';
 import { NgxChessBoardModule } from 'ngx-chess-board';
-import { ChessboardComponentComponent } from '../lesson-components/chessboard-component/chessboard-component.component';
 
 
 import { Tab3PageRoutingModule } from './chess-lessons-routing.module';

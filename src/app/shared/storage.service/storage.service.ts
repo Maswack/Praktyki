@@ -31,14 +31,21 @@ export class StorageService {
         fullyCompleted: 0
       }
     })
-    this.addData({
-      line: false,
-      line2: false,
-      rook: false,
-      bishop: false,
-      queen: false,
-      knight: false,
-      totalMistakes: false
+    await this.addData([
+        {available: true, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false}
+    ])
+    await this.addData({
+      actualLesson: 0,
+      isActualLessonDone: false,
     })
   }
 

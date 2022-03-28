@@ -5,7 +5,6 @@ import { LessonContainerComponent } from './lessonsContainer.component';
 import { LessonDirective } from './lesson.directive';
 import { LessonChessboardComponent } from './lesson-chessboard.component';
 import { NgxChessBoardModule } from 'ngx-chess-board';
-import { ChessboardComponentComponent } from '../lesson-components/chessboard-component/chessboard-component.component';
 
 import { RookLessonComponent } from '../lesson-components/rook-lesson/rook-lesson.component';
 import { BishopLessonComponent } from '../lesson-components/bishop-lesson/bishop-lesson.component';

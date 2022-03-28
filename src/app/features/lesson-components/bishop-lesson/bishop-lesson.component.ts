@@ -1,6 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';
 import { Platform, AlertController } from '@ionic/angular';
+import { StorageService } from 'src/app/shared/storage.service/storage.service';
 
 @Component({
   selector: 'app-bishop-lesson',
@@ -24,6 +25,7 @@ export class BishopLessonComponent {
   isNotAnimation = false;
   lesson = 0;
   moveIndex = 0;
+  actualLessonData: any;
 
   constructor(
       private element: ElementRef,
@@ -31,6 +33,7 @@ export class BishopLessonComponent {
       private ngxChessBoardService: NgxChessBoardService,
       public renderer: Renderer2,
       private alertController: AlertController,
+      private storageService: StorageService,
     ) 
   { 
     platform.ready().then( () => {
@@ -47,8 +50,17 @@ export class BishopLessonComponent {
     })
   }
 
+  ngAfterViewInit() {
+    this.getData();
+  }
+
   @ViewChild('board') board: NgxChessBoardView;
 
+  async getData() {
+    const data = await this.storageService.getData();
+
+    this.actualLessonData = data[2];
+  }
   reset() {
     this.board.reset();
   }
@@ -107,6 +119,7 @@ export class BishopLessonComponent {
     })
 
     await alert.present();
+    await this.updateActualLessonData();
   }
 
 
@@ -129,6 +142,13 @@ export class BishopLessonComponent {
       this.setUpThePosition();
     }, time)
     
+  }
+
+  async updateActualLessonData() {
+    const lessonData = this.actualLessonData;
+
+    lessonData.isActualLessonDone = true;
+    await this.storageService.updateData(lessonData, 2);
   }
 
 }

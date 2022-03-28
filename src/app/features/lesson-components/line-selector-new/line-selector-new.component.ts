@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Renderer2, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/shared/storage.service/storage.service';
 
 import { AlertController, Platform } from '@ionic/angular';
 
@@ -20,9 +21,11 @@ export class LineSelectorNewComponent {
 
   @Input() lessonLeft: string;
 
+  actualLessonData: any;
+
   private tileClickListener: () => void;
 
-  constructor(private platform: Platform, public alertController: AlertController, public router: Router, private renderer: Renderer2) {
+  constructor(private storageService: StorageService,private platform: Platform, public alertController: AlertController, public router: Router, private renderer: Renderer2) {
     this.platform.ready().then(() => {
         this.screenWidth = "" + platform.width();
         this.chessLessons = "a1,a2,a3,a4,a5,a6,a7,a8/a7,b7,c7,d7,e7,f7,g7,h7/d1,d2,d3,d4,d5,d6,d7,d8/a4,b4,c4,d4,e4,f4,g4,h4/h8,h7,h6,h5,h4,h3,h2,h1";
@@ -35,6 +38,16 @@ export class LineSelectorNewComponent {
 
         this.createChessboard(chessboard)
     })
+  }
+
+  async getData() {
+    const data = await this.storageService.getData();
+
+    this.actualLessonData = data[2];
+  }
+
+  ngAfterViewInit() {
+    this.getData();
   }
 
   async createChessboard(chessboard) {
@@ -176,6 +189,7 @@ export class LineSelectorNewComponent {
 
     await alert.present();
     await this.destroyAllChildren();
+    await this.updateActualLessonData();
   }
 
   async nextLesson() {
@@ -206,6 +220,14 @@ export class LineSelectorNewComponent {
     });
 
   }
+
+  async updateActualLessonData() {
+    const lessonData = this.actualLessonData;
+
+    lessonData.isActualLessonDone = true;
+    await this.storageService.updateData(lessonData, 2);
+  }
+
 
   ngOnDestroy() {
     this.tileClickListener();
