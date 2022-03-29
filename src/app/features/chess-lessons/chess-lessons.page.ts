@@ -28,6 +28,7 @@ export class Tab3Page {
 
   lessonsData: any[] = [];
   actualLessonData: any;
+  iconName: any[] = ['school','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed'];
 
   constructor(
     public viewContainerRef: ViewContainerRef,
@@ -41,13 +42,32 @@ export class Tab3Page {
       this.getData();
     }
 
+
   @ViewChild(LessonContainerComponent) lesson:LessonContainerComponent;
 
   async getData() {
     const data = await this.storageService.getData();
     this.lessonsData = data[1];
     this.actualLessonData = data[2];
+
+    this.updateIconsOfButtons();
   }
+  async updateIconsOfButtons() {
+    const lock = 'lock-closed';
+    const school = 'school';
+
+
+    for(let index = 0; index < this.iconName.length; index++){
+      if(this.lessonsData[index].available){
+        this.iconName[index] = school;
+      }
+      else {
+        this.iconName[index] = lock;
+      }
+    }
+
+  }
+
 
   async updateLessonData() {
     await this.storageService.updateData(this.lessonsData, 1);
@@ -80,6 +100,7 @@ export class Tab3Page {
   async goBack() {
     await this.updateClientData();
     await this.turnLessonsOn();
+    await this.updateIconsOfButtons();
   }
 
   turnLessonsOff() {

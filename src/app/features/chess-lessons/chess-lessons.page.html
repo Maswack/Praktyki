@@ -14,17 +14,18 @@
       <ion-button style="display: none;" #goBackButton (click)="goBack()">Wroc</ion-button> <ion-title size="large" #title>Lekcje</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <div #container id="container">
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(0)"><ion-icon name="school"></ion-icon>Linie 1</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(1)"><ion-icon name="school"></ion-icon>Linie 2</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(2)"><ion-icon name="school"></ion-icon>Wieża</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(3)"><ion-icon name="school"></ion-icon>Wieża Bicie</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(4)"><ion-icon name="school"></ion-icon>Goniec</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(5)"><ion-icon name="school"></ion-icon>Goniec Bicie</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(6)"><ion-icon name="school"></ion-icon>Hetman</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(7)"><ion-icon name="school"></ion-icon>Hetman Bicie</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(8)"><ion-icon name="school"></ion-icon>Skoczek</ion-button></ion-item>
-    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(9)"><ion-icon name="school"></ion-icon>Skoczek Bicie</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(0)"><ion-icon [name]="iconName[0]"></ion-icon>Linie 1</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(1)"><ion-icon [name]="iconName[1]"></ion-icon>Linie 2</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(2)"><ion-icon [name]="iconName[2]"></ion-icon>Wieża</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(3)"><ion-icon [name]="iconName[3]"></ion-icon>Wieża Bicie</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(4)"><ion-icon [name]="iconName[4]"></ion-icon>Goniec</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(5)"><ion-icon [name]="iconName[5]"></ion-icon>Goniec Bicie</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(6)"><ion-icon [name]="iconName[6]"></ion-icon>Hetman</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(7)"><ion-icon [name]="iconName[7]"></ion-icon>Hetman Bicie</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(8)"><ion-icon [name]="iconName[8]"></ion-icon>Skoczek</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(9)"><ion-icon [name]="iconName[9]"></ion-icon>Skoczek Bicie</ion-button></ion-item>
   </div>
   <div class="ad-banner-example">
     <app-lesson [lessons] = "lessons" lessonHost></app-lesson>
