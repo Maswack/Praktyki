@@ -21,7 +21,7 @@ export class StorageService {
       eater: {
         clickedRight: 0,
         clickedWrong: 0,
-        timeSpent: 0,
+        highScore: 0,
         completed: 0
       },
       memorizer: {
