@@ -24,3 +24,14 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@font-face {
+    font-family: FreeSerif;
+    src: url("./assets/FreeSerif-4aeK.ttf");
+}
+.single-piece{
+    font-family: "FreeSerif";
+    font-size: 42px !important;
+    display: flex;
+    align-items: center;
+}
