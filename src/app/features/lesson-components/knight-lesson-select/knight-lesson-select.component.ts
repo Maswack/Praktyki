@@ -1,6 +1,7 @@
 import { Component, Renderer2, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
-import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';;
+import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';
+import { StorageService } from 'src/app/shared/storage.service/storage.service';
 
 @Component({
   selector: 'app-knight-lesson-select',
@@ -29,6 +30,7 @@ export class KnightLessonSelectComponent {
   tilesLeft: string;
   //jesli to nie jest number to nie dziala
   width: number;
+  actualLessonData: any;
 
 
   @ViewChild('board') board: NgxChessBoardView;
@@ -42,7 +44,8 @@ export class KnightLessonSelectComponent {
     private renderer: Renderer2, 
     private alertController: AlertController,
     private ngxChessBoardService: NgxChessBoardService,
-    public element: ElementRef
+    public element: ElementRef,
+    private storageService: StorageService,
     
     ) { 
       this.platform.ready().then( () => {
@@ -61,8 +64,14 @@ export class KnightLessonSelectComponent {
       this.boardTop += child.offsetHeight;
     })
 
+    this.getData();
     this.setFen();
     this.setPlaneOfChess();
+  }
+  async getData() {
+    const data = await this.storageService.getData();
+
+    this.actualLessonData = data[2];
   }
 
   reset() {
@@ -196,8 +205,15 @@ export class KnightLessonSelectComponent {
     })
 
     await alert.present();
+    await this.updateActualLessonData();
   }
 
+  async updateActualLessonData() {
+    const lessonData = this.actualLessonData;
+
+    lessonData.isActualLessonDone = true;
+    await this.storageService.updateData(lessonData, 2);
+  }
 
   ngOnDestroy() {
     this.tileListener();

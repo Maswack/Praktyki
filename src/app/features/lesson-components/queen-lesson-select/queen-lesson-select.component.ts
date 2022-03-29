@@ -1,6 +1,7 @@
 import { Component, Renderer2, ViewChild, ElementRef, AfterViewInit, OnDestroy} from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
-import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';;
+import { NgxChessBoardService, NgxChessBoardView } from 'ngx-chess-board';
+import { StorageService } from 'src/app/shared/storage.service/storage.service';
 
 @Component({
   selector: 'app-queen-lesson-select',
@@ -29,6 +30,7 @@ export class QueenLessonSelectComponent {
   tilesLeft: string;
   //jesli to nie jest number to nie dziala
   width: number;
+  actualLessonData: any;
 
 
   @ViewChild('board') board: NgxChessBoardView;
@@ -42,7 +44,8 @@ export class QueenLessonSelectComponent {
     private renderer: Renderer2, 
     private alertController: AlertController,
     private ngxChessBoardService: NgxChessBoardService,
-    public element: ElementRef
+    public element: ElementRef,
+    private storageService: StorageService,
     
     ) { 
       this.platform.ready().then( () => {
@@ -63,8 +66,13 @@ export class QueenLessonSelectComponent {
 
     this.setFen();
     this.setPlaneOfChess();
+    this.getData();
   }
+  async getData() {
+    const data = await this.storageService.getData();
 
+    this.actualLessonData = data[2];
+  }
   reset() {
     this.board.reset();
   }
@@ -196,11 +204,19 @@ export class QueenLessonSelectComponent {
     })
 
     await alert.present();
+    await this.updateActualLessonData();
   }
 
 
   ngOnDestroy() {
     this.tileListener();
+  }
+
+  async updateActualLessonData() {
+    const lessonData = this.actualLessonData;
+
+    lessonData.isActualLessonDone = true;
+    await this.storageService.updateData(lessonData, 2);
   }
 
 }

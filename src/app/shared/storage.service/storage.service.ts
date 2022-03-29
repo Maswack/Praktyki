@@ -21,7 +21,7 @@ export class StorageService {
       eater: {
         clickedRight: 0,
         clickedWrong: 0,
-        timeSpent: 0,
+        highScore: 0,
         completed: 0
       },
       memorizer: {
@@ -31,14 +31,21 @@ export class StorageService {
         fullyCompleted: 0
       }
     })
-    this.addData({
-      line: false,
-      line2: false,
-      rook: false,
-      bishop: false,
-      queen: false,
-      knight: false,
-      totalMistakes: false
+    await this.addData([
+        {available: true, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false},
+        {available: false, done: false}
+    ])
+    await this.addData({
+      actualLesson: 0,
+      isActualLessonDone: false,
     })
   }
 

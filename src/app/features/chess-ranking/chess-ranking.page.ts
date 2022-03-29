@@ -13,7 +13,7 @@ export class Tab4Page implements OnInit {
   statsEater = {
     clickedRight: 1337,
     clickedWrong: 69,
-    timeSpent: 420,
+    highScore: 420,
     completed: 666
   };
 

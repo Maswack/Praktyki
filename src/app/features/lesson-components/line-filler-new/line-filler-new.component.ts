@@ -1,16 +1,20 @@
-import { Component, ElementRef, Input, Renderer2, ViewChild, OnDestroy } from '@angular/core';
+import { getLocaleDateFormat } from '@angular/common';
+import { Component, ElementRef, Input, Renderer2, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { StorageService } from 'src/app/shared/storage.service/storage.service';
 
 @Component({
   selector: 'app-line-filler-new',
-  template: `<div #board id="board-lesson1"></div>`,
+  template: `
+    <div #board id="board-lesson1"></div>`,
   styleUrls: ['./line-filler-new.component.scss'],
 })
 export class LineFillerNewComponent{
-
-  constructor(private renderer: Renderer2, private element: ElementRef, public alertController: AlertController) {}
-
+  
   @ViewChild('board') board: ElementRef;
+
+  constructor(private storageService: StorageService, private renderer: Renderer2, private element: ElementRef, public alertController: AlertController) {}
+
   ids = [21, 23, 24, 26, 28];
   idsToClick = [22, 25, 27];
   animationStarted = false;
@@ -20,11 +24,20 @@ export class LineFillerNewComponent{
      this.makeChess();
      this.makeGreen();
      this.createFinger(0);
+
+     this.getData();
   }
+
+  actualLessonData: any;
 
   @Input() timer : any;
   private listener: () => void;
 
+  async getData() {
+    const data = await this.storageService.getData();
+
+    this.actualLessonData = data[2];
+  }
 
   async makeChess()
   {
@@ -109,7 +122,10 @@ export class LineFillerNewComponent{
         header:"Gratulacje Mistrzuniu !!!",
         message: "Ukończyłeś cały rozdział",
       })
+      
       await alert.present();
+      await this.updateActualLessonData();
+
       return 0;
     }
     switch(this.level){
@@ -131,5 +147,12 @@ export class LineFillerNewComponent{
 
   ngOnDestroy() {
     this.listener();
+  }
+
+  async updateActualLessonData() {
+    const lessonData = this.actualLessonData;
+
+    lessonData.isActualLessonDone = true;
+    await this.storageService.updateData(lessonData, 2);
   }
 }

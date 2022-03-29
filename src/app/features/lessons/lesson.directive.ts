@@ -5,4 +5,5 @@ import { Directive, ViewContainerRef } from '@angular/core';
 })
 export class LessonDirective {
   constructor(public viewContainerRef: ViewContainerRef) { }
+
 }

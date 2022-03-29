@@ -42,4 +42,12 @@ export class MateComponent {
   ngAfterViewInit()
   {
   }
+  movePiece(move) {
+    this.board.move(move);
+  }
+  undoMove() {
+    setTimeout(() => {
+      this.board.undo();
+    }, 200)
+  }
 }
