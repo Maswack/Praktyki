@@ -46,30 +46,40 @@ app.post('/rankings', (req, res) =>{
         }
     })
 })
-app.post('/login', (req, res) => {
+app.post('/login', (req, response) => {
     const sql = 'SELECT * FROM appuser'
-    const respone = res;
     const request = req.body;
 
-    db.query(sql, (err, res) => {
+    db.query(sql, (err, result) => {
         if(err) throw err
 
         const data = {
             id: 1,
             name: ``
         }
-
-        res.forEach(element => {
+        let notFound = true;
+        result.forEach(element => {
            if(element.name == request.name && element.password == request.password ){
                 data.id = element.id;
                 data.name = `${element.name}`;
+                notFound = false;
             } 
         });
-        
-        respone.send(data)
-        userId = data.id;
-    })
+        if(!notFound) {
+            const id = data.id
+            const sql = `SELECT * FROM lessondata WHERE userId = ${id}`; 
+            db.query(sql, async (err, res) => {
+                if(err) throw (err)
+                else {
+                    response.send(res);          
+                }
+            })
 
+        } else {
+            response.send({name: "user not found"})
+        }
+        
+    })
 })
 
 
@@ -104,11 +114,12 @@ app.post('/register', async (req, res, next) => {
 
 app.get('/getData', (req, response, next) => {
     const id = userId;
+    console.log(id)
     const sql = `SELECT * FROM lessondata WHERE userId = ${id}`; 
-
     db.query(sql, async (err, res) => {
         if(err) next(err);
         else {
+            console.log(res)
             response.send(res);          
         }
     })
