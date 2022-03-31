@@ -18,6 +18,10 @@ import { alertController } from '@ionic/core';
 })
 export class Tab3Page {
 
+  data:any = {
+    chessLessonsDone: 0
+  }
+
   @Input() screenWidth: string;
 
   @ViewChild('container') container: ElementRef;
@@ -47,8 +51,9 @@ export class Tab3Page {
 
   async getData() {
     const data = await this.storageService.getData();
-    this.lessonsData = data[1];
+    this.data.chessLessonsDone = data[1].chessLessonsDone;
     this.actualLessonData = data[2];
+
 
     this.updateIconsOfButtons();
   }
@@ -58,7 +63,7 @@ export class Tab3Page {
 
 
     for(let index = 0; index < this.iconName.length; index++){
-      if(this.lessonsData[index].available){
+      if(index <= this.data.chessLessonsDone){
         this.iconName[index] = school;
       }
       else {
@@ -70,13 +75,13 @@ export class Tab3Page {
 
 
   async updateLessonData() {
-    await this.storageService.updateData(this.lessonsData, 1);
+    await this.storageService.updateData(this.data, 1);
     await this.storageService.updateData(this.actualLessonData, 2);
   }
 
   async startLesson(index)
   {   
-    if(this.lessonsData[index].available) {
+    if(index <= this.data.chessLessonsDone) {
       
 
       this.actualLessonData.actualLesson = index;
@@ -131,25 +136,16 @@ export class Tab3Page {
   async updateClientData() {
     await this.getData();
 
-    const lesData = this.lessonsData;
     const lesson = this.actualLessonData.actualLesson;
     const isLessonDone = this.actualLessonData.isActualLessonDone;
 
     if(isLessonDone) {
-      if(lesson < lesData.length - 1) 
+      if(lesson <= this.data.chessLessonsDone) 
       {
-        lesData[lesson].done = true;
-        lesData[lesson + 1].available = true;
+        this.data.chessLessonsDone += 1;
       } 
-      else if(lesson == lesData.length - 1) 
-      {
-        lesData[lesson].done = true;
-      }
     }
     
-
-
-    this.lessonsData = lesData;
     this.updateLessonData();
   }
 

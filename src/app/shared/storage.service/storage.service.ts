@@ -31,18 +31,9 @@ export class StorageService {
         fullyCompleted: 0
       }
     })
-    await this.addData([
-        {available: true, done: false},
-        {available: false, done: false},
-        {available: false, done: false},
-        {available: false, done: false},
-        {available: false, done: false},
-        {available: false, done: false},
-        {available: false, done: false},
-        {available: false, done: false},
-        {available: false, done: false},
-        {available: false, done: false}
-    ])
+    await this.addData({
+        chessLessonsDone: 0
+    })
     await this.addData({
       actualLesson: 0,
       isActualLessonDone: false,

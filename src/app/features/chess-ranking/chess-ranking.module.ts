@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,7 +16,8 @@ import { Tab4Page } from './chess-ranking.page';
     FormsModule,
     IonicModule,
     Tab4PageRoutingModule,
-    RouterModule.forChild([{ path: '', component: Tab4Page }])
+    RouterModule.forChild([{ path: '', component: Tab4Page }]),
+    HttpClientModule
   ],
   declarations: [Tab4Page]
 })
