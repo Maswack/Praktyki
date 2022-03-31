@@ -31,5 +31,25 @@
       <ion-label class="statsProfile"><strong class="statsNumber">{{ statsEater.clickedWrong }}</strong> Błędnie zaznaczonych bierek</ion-label>
     </ion-item>
   </ion-list>
+  <ion-button (click)="showRankings()"><ion-icon name="log-out-outline"></ion-icon>Rankingi</ion-button>
   <ion-button (click)="handleButtonClick()"><ion-icon name="log-out-outline"></ion-icon>Wyloguj</ion-button>
+  <ion-grid id="blankScoreboard">
+    <ion-row>
+      <ion-col class="scoreboardColumn topColumn">
+        <div>Pseudonim</div>
+      </ion-col>
+      <ion-col class="scoreboardColumn topColumn">
+        <div>Najlepszy Wynik</div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let rank of ranking">
+      <ion-col class="scoreboardColumn">
+        <div>{{ rank.nick }}</div>
+      </ion-col>
+      <ion-col class="scoreboardColumn">
+        <div>{{ rank.score }}</div>
+      </ion-col>
+    </ion-row>
+    <ion-button (click)="closeScoreboard()">Zamknij</ion-button>
+  </ion-grid>
 </ion-content>

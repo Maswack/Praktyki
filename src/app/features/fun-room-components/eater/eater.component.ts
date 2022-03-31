@@ -3,6 +3,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { NgxChessBoardService } from 'ngx-chess-board';
 import { NgxChessBoardView } from 'ngx-chess-board';
 import { StorageService } from '../../../shared/storage.service/storage.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-Eater',
@@ -54,10 +55,12 @@ export class EaterComponent{
   level = Math.floor(Math.random()*this.fen.length);
   completedLevels = [];
   goodAnswers = 0;
+  piecesSelected = [];
   minutesRemaining = 1;
   secondsRemaining = "00";
   interval : any;
   constructor(
+      private http: HttpClient,
       private storageService: StorageService,
       private renderer: Renderer2, 
       private element: ElementRef, 
@@ -114,10 +117,15 @@ export class EaterComponent{
   }
 
   async pieceClicked(pieceNode){
+
     let mistake = true;
+    for(let i=0; i<this.piecesSelected.length; i++) if(pieceNode.id == this.piecesSelected[i]) return 0;
     for(let i=0; i<this.correctPieces[this.level].length; i++)
     {
-      if(pieceNode.id == this.correctPieces[this.level][i]) mistake = false;
+      if(pieceNode.id == this.correctPieces[this.level][i]) {
+        mistake = false; 
+        this.piecesSelected.push(this.correctPieces[this.level][i]);
+      }
     }
     if(!mistake)
     {
@@ -129,7 +137,7 @@ export class EaterComponent{
       if(this.goodAnswers == this.correctPieces[this.level].length && this.completedLevels.length < this.fen.length-1)
       {
         this.stats.completed++;
-
+        this.piecesSelected = [];
         this.completedLevels.push(this.level)
         while(true)
         {
@@ -167,5 +175,10 @@ export class EaterComponent{
     if(this.stats.clickedRight > funRoomData.eater.highScore) funRoomData.eater.highScore= this.stats.clickedRight;
     this.stats.highScore = funRoomData.eater.highScore;
     this.storageService.updateData(funRoomData, 0)
+    const body = {
+      nick: "heppe",
+      score: this.stats.clickedRight
+    }
+    this.http.post('http://localhost:3000/rankings', body).subscribe()
   }
 }

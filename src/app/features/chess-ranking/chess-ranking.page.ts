@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 import { Component, OnInit, Renderer2, } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { TabsPage } from 'src/app/shared/tabs/tabs.page';
@@ -16,8 +18,11 @@ export class Tab4Page implements OnInit {
     highScore: 420,
     completed: 666
   };
+  ranking : any;
 
-  constructor(public alertController: AlertController, private storageService: StorageService, private tabs: TabsPage, private renderer: Renderer2) { 
+  constructor(
+    private http: HttpClient,
+    public alertController: AlertController, private storageService: StorageService, private tabs: TabsPage, private renderer: Renderer2) { 
   }
   async updateData()
   {
@@ -39,5 +44,18 @@ export class Tab4Page implements OnInit {
 
     await alert.present();
   }
-
+  async showRankings()
+  {
+    this.http.get('http://localhost:3000/getrankings').pipe(
+      map(r => r)
+    ).subscribe(resp => {
+        this.ranking = resp
+        if(document.querySelector("#blankScoreboard")) document.querySelector("#blankScoreboard").setAttribute("id", "scoreboard")
+      }
+    );
+  }
+  closeScoreboard()
+  {
+    document.querySelector("#scoreboard").setAttribute("id", "blankScoreboard")
+  }
 }
