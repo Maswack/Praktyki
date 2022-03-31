@@ -9,5 +9,5 @@ export class TabsPage {
 
   constructor() {}
   @ViewChild('tab4', {read: ElementRef}) tab4: ElementRef;
-
+  @ViewChild('tab3', {read: ElementRef}) tab3: ElementRef;
 }

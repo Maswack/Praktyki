@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef, Component, ViewChild, Input, ElementRef } from '@angular/core';
+import { Directive, ViewContainerRef, Component, ViewChild, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { LessonItem } from '../lessons/lesson-item';
 import { LessonService } from '../lessons/lesson.service';
 import { LessonContainerComponent } from '../lessons/lessonsContainer.component';
@@ -6,6 +6,7 @@ import { NgxChessBoardView } from 'ngx-chess-board';
 import { Platform } from '@ionic/angular';
 import { StorageService } from 'src/app/shared/storage.service/storage.service';
 import { alertController } from '@ionic/core';
+import { TabsPage } from 'src/app/shared/tabs/tabs.page';
 
 
 @Directive({
@@ -16,7 +17,11 @@ import { alertController } from '@ionic/core';
   templateUrl: 'chess-lessons.page.html',
   styleUrls: ['chess-lessons.page.scss']
 })
-export class Tab3Page {
+export class Tab3Page implements OnInit{
+
+  data:any = {
+    chessLessonsDone: 0
+  }
 
   @Input() screenWidth: string;
 
@@ -31,6 +36,8 @@ export class Tab3Page {
   iconName: any[] = ['school','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed'];
 
   constructor(
+    private tabs: TabsPage,
+    private renderer: Renderer2,
     public viewContainerRef: ViewContainerRef,
     private lessonService: LessonService,
     private platform: Platform,
@@ -47,8 +54,9 @@ export class Tab3Page {
 
   async getData() {
     const data = await this.storageService.getData();
-    this.lessonsData = data[1];
+    this.data.chessLessonsDone = data[1].chessLessonsDone;
     this.actualLessonData = data[2];
+
 
     this.updateIconsOfButtons();
   }
@@ -58,7 +66,7 @@ export class Tab3Page {
 
 
     for(let index = 0; index < this.iconName.length; index++){
-      if(this.lessonsData[index].available){
+      if(index <= this.data.chessLessonsDone){
         this.iconName[index] = school;
       }
       else {
@@ -70,13 +78,13 @@ export class Tab3Page {
 
 
   async updateLessonData() {
-    await this.storageService.updateData(this.lessonsData, 1);
+    await this.storageService.updateData(this.data, 1);
     await this.storageService.updateData(this.actualLessonData, 2);
   }
 
   async startLesson(index)
   {   
-    if(this.lessonsData[index].available) {
+    if(index <= this.data.chessLessonsDone) {
       
 
       this.actualLessonData.actualLesson = index;
@@ -94,6 +102,8 @@ export class Tab3Page {
   lessons: LessonItem[] = [];
 
   ngOnInit() {
+    this.getData()
+    this.renderer.listen(this.tabs.tab3.nativeElement, "click", ()=>{this.getData()})
     this.lessons = this.lessonService.getLessons();
   }
 
@@ -131,25 +141,16 @@ export class Tab3Page {
   async updateClientData() {
     await this.getData();
 
-    const lesData = this.lessonsData;
     const lesson = this.actualLessonData.actualLesson;
     const isLessonDone = this.actualLessonData.isActualLessonDone;
 
     if(isLessonDone) {
-      if(lesson < lesData.length - 1) 
+      if(lesson == this.data.chessLessonsDone) 
       {
-        lesData[lesson].done = true;
-        lesData[lesson + 1].available = true;
+        this.data.chessLessonsDone += 1;
       } 
-      else if(lesson == lesData.length - 1) 
-      {
-        lesData[lesson].done = true;
-      }
     }
     
-
-
-    this.lessonsData = lesData;
     this.updateLessonData();
   }
 
