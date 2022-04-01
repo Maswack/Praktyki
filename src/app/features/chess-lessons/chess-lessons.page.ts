@@ -1,4 +1,4 @@
-import { Directive, ViewContainerRef, Component, ViewChild, Input, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ViewContainerRef, Component, ViewChild, Input, ElementRef, OnInit, Renderer2, AfterViewInit } from '@angular/core';
 import { LessonItem } from '../lessons/lesson-item';
 import { LessonService } from '../lessons/lesson.service';
 import { LessonContainerComponent } from '../lessons/lessonsContainer.component';
@@ -33,7 +33,6 @@ export class Tab3Page implements OnInit{
 
   lessonsData: any[] = [];
   actualLessonData: any;
-  iconName: any[] = ['school','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed','lock-closed'];
 
   constructor(
     private tabs: TabsPage,
@@ -45,42 +44,44 @@ export class Tab3Page implements OnInit{
       platform.ready().then( () => {
         this.screenWidth = "" + platform.width;
       })
-
-      this.getData();
     }
 
 
   @ViewChild(LessonContainerComponent) lesson:LessonContainerComponent;
+
+  ngOnInit() {
+    this.getData()
+
+    this.renderer.listen(this.tabs.tab3.nativeElement, "click", ()=>{this.getData()})
+    this.lessons = this.lessonService.getLessons();
+  }
 
   async getData() {
     const data = await this.storageService.getData();
     this.data.chessLessonsDone = data[1].chessLessonsDone;
     this.actualLessonData = data[2];
 
-
-    this.updateIconsOfButtons();
+    await this.updateIconsOfButtons();
   }
+
   async updateIconsOfButtons() {
     const lock = 'lock-closed';
     const school = 'school';
 
+    const lessonsDone = this.data.chessLessonsDone;
+    const length = this.container.nativeElement.children.length;
+    const children = this.container.nativeElement.children
 
-    for(let index = 0; index < this.iconName.length; index++){
-      if(index <= this.data.chessLessonsDone){
-        this.iconName[index] = school;
+    for(let index = 0; index < length; index++){
+      if(index <= lessonsDone){
+        children[index].children[0].children[0].setAttribute('name', school)
       }
       else {
-        this.iconName[index] = lock;
+        children[index].children[0].children[0].setAttribute('name', lock)
       }
-    }
-
+    };
   }
 
-
-  async updateLessonData() {
-    await this.storageService.updateData(this.data, 1);
-    await this.storageService.updateData(this.actualLessonData, 2);
-  }
 
   async startLesson(index)
   {   
@@ -99,12 +100,6 @@ export class Tab3Page implements OnInit{
     }
   }
   lessons: LessonItem[] = [];
-
-  ngOnInit() {
-    this.getData()
-    this.renderer.listen(this.tabs.tab3.nativeElement, "click", ()=>{this.getData()})
-    this.lessons = this.lessonService.getLessons();
-  }
 
   async goBack() {
     await this.updateClientData();
@@ -126,6 +121,11 @@ export class Tab3Page implements OnInit{
     this.title.nativeElement.style.display = "block";
 
     this.lesson.unloadComponent();
+  }
+
+  async updateLessonData() {
+    await this.storageService.updateData(this.data, 1);
+    await this.storageService.updateData(this.actualLessonData, 2);
   }
 
   async lessonIsNotAvailable() {
