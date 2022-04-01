@@ -86,7 +86,6 @@ export class Tab3Page implements OnInit{
   {   
     if(index <= this.data.chessLessonsDone) {
       
-
       this.actualLessonData.actualLesson = index;
       this.actualLessonData.isActualLessonDone = false;
 
@@ -151,6 +150,7 @@ export class Tab3Page implements OnInit{
       } 
     }
     
+    this.tabs.tab4.nativeElement
     this.updateLessonData();
   }
 

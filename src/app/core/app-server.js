@@ -6,15 +6,26 @@ const cors = require("cors");
 const app = express();
 let userId = 0;
 
+const serverCheppe = {
+    host: "192.168.0.164",
+    user: 'maslak',
+    password: 'haslo',
+    database: 'chessgrow'
+}
+
+const serverMaslaka = {
+    host: "localhost",
+    user: 'root',
+    password: '',
+    database: 'szachy'
+}
+
+
 app.use(cors());
 app.options("*", cors());
 app.use(bodyParser.json());
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'chessgrow'
-})
+const db = mysql.createConnection(serverMaslaka)
+
 
 db.connect(err => {
     if(err) throw err
@@ -22,7 +33,7 @@ db.connect(err => {
 })
 
 app.listen('3000', () => {
-    console.log("bruh moment epic fail family guy compilation")
+    console.log("bruh moment, epic fail russian tanks stolen by gypsies compilation")
 })
 
 app.get('/getrankings', (req, res) =>{
@@ -39,7 +50,7 @@ app.post('/rankings', (req, res) =>{
         if(result[0] || result[0].score < req.body.score)
         {
             db.query(`DELETE from rankings WHERE nick = '${req.body.nick}'`)
-            let sql = `INSERT INTO rankings(nick, score) VALUES('${req.body.nick}', ${req.body.score})`;
+            let sql = `INSERT INTO rankings(nick, score) VALUES('${req.body.nick}', ${req.body.score}, ${req.body.wrong}, ${req.body.completed}, ${req.body.highscore})`;
             db.query(sql, (err) =>{
                 if(err) throw err;
             })
@@ -62,16 +73,20 @@ app.post('/login', (req, response) => {
            if(element.name == request.name && element.password == request.password ){
                 data.id = element.id;
                 data.name = `${element.name}`;
+
                 notFound = false;
             } 
         });
         if(!notFound) {
             const id = data.id
             const sql = `SELECT * FROM lessondata WHERE userId = ${id}`; 
+
             db.query(sql, async (err, res) => {
                 if(err) throw (err)
                 else {
-                    response.send(res);          
+                    const finalData = [{res}, {data}]
+
+                    response.send(finalData);          
                 }
             })
 
@@ -112,15 +127,14 @@ app.post('/register', async (req, res, next) => {
 })
 
 
-app.get('/getData', (req, response, next) => {
-    const id = userId;
-    console.log(id)
-    const sql = `SELECT * FROM lessondata WHERE userId = ${id}`; 
-    db.query(sql, async (err, res) => {
-        if(err) next(err);
-        else {
-            console.log(res)
-            response.send(res);          
-        }
+app.post('/sendDataToServer', async (req, res) => {
+    const chessLesson = req.body[0].lessonData.chessLessonsDone
+    const id = req.body[1].id
+
+    const sql1 = `UPDATE lessondata SET lessonsDone = ${chessLesson} WHERE userId = ${id}`
+    db.query(sql1, async(err, result) => {
+        if(err) next(err)
     })
+
+    //sql2 = ''
 })

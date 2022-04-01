@@ -14,10 +14,6 @@ import { catchError, retry, map } from 'rxjs/operators';
 })
 export class Tab4Page implements OnInit {
 
-  data: any = {
-    chessLessonsDone: 0
-  }
-
   statsEater = {
     clickedRight: 0,
     clickedWrong: 0,
@@ -26,6 +22,11 @@ export class Tab4Page implements OnInit {
   };
 
   ranking : any;
+
+  lessonData: any = {
+    chessLessonsDone: 0
+  }
+
   user: any = {
     id: 1,
     name: "",
@@ -44,6 +45,7 @@ export class Tab4Page implements OnInit {
   {
     const data = await this.storageService.getData()
     this.statsEater = data[0].eater;
+    this.lessonData = data[1]
   }
   ngOnInit() {
     this.updateData()
@@ -115,12 +117,19 @@ export class Tab4Page implements OnInit {
           alert.present();
           return 0;
         }
-          this.user = await res;
-          const newLessonsData = {
-            chessLessonsDone: res[0].lessonsDone
-          }
-          this.storageService.updateData(newLessonsData, 1)
+          const data = await this.storageService.getData();
+
+          const lessonData = res[0].res[0]
+          this.user = await res[1].data;
+
+          data[1].chessLessonsDone = lessonData.lessonsDone;
+          data[2].id = this.user.id
+
+          await this.storageService.updateData(data[1], 1)
+          await this.storageService.updateData(data[2], 2)
+
           this.postLoginEnv("block","none");
+          this.updateData()
        },
       (err) => { console.log(err) }
     )
@@ -153,16 +162,34 @@ export class Tab4Page implements OnInit {
     )
   }
 
-  logOutFunction() {
+  async logOutFunction() {
+    this.sendDataToServer(this.user.id);
+
     const data = {
       id: 1,
       name: ''
     }
     this.user = data;
+    this.lessonData.chessLessonsDone = 0;
 
     this.postLoginEnv("none", "block");
     this.resetInput(true);
   }
+
+
+  async sendDataToServer(id) {
+    const storageData = await this.storageService.getData();
+    const lessonData = storageData[1];
+
+    const data = [{lessonData}, {id}]
+
+    this.http.post('http://localhost:3000/sendDataToServer', data).subscribe(
+      (res) => {},
+      (err) => console.log(err)
+    )
+  }
+
+
 
   resetInput(fully) {
     this.passwordInput.nativeElement.value = "";

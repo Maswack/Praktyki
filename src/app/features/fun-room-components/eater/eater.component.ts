@@ -169,15 +169,21 @@ export class EaterComponent{
   {
     const data = await this.storageService.getData();
     const funRoomData = data[0];
-    funRoomData.eater.clickedRight+= this.stats.clickedRight;
-    funRoomData.eater.clickedWrong+= this.stats.clickedWrong;
-    funRoomData.eater.completed+= this.stats.completed;
+    funRoomData.eater.clickedRight  += this.stats.clickedRight;
+    funRoomData.eater.clickedWrong  += this.stats.clickedWrong;
+    funRoomData.eater.completed += this.stats.completed;
+
     if(this.stats.clickedRight > funRoomData.eater.highScore) funRoomData.eater.highScore= this.stats.clickedRight;
+
     this.stats.highScore = funRoomData.eater.highScore;
     this.storageService.updateData(funRoomData, 0)
+
     const body = {
       nick: "heppe",
-      score: this.stats.clickedRight
+      score: this.stats.clickedRight,
+      wrong: this.stats.clickedWrong,
+      completed: this.stats.completed,
+      highscore: this.stats.highScore
     }
     this.http.post('http://localhost:3000/rankings', body).subscribe()
   }
