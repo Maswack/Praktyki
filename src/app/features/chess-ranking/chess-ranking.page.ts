@@ -20,10 +20,10 @@ export class Tab4Page implements OnInit {
     highScore: 0,
     completed: 0
   };
-
+  playerId: number;
   ranking : any;
 
-  lessonData: any = {
+  lessonData= {
     chessLessonsDone: 0
   }
 
@@ -43,9 +43,18 @@ export class Tab4Page implements OnInit {
 
   async updateData()
   {
-    const data = await this.storageService.getData()
-    this.statsEater = data[0].eater;
-    this.lessonData = data[1]
+    const storageData = await this.storageService.getData();
+    this.playerId = storageData[2].id;
+    this.http.get(`http://localhost:3000/geteater/${this.playerId}`).pipe(
+      map(r => r)
+    ).subscribe(resp => {
+        this.statsEater.completed = resp[0].completed
+        this.statsEater.clickedRight = resp[0].selected
+        this.statsEater.clickedWrong = resp[0].mistakes
+        this.statsEater.highScore = resp[0].highscore
+      }
+    );
+    this.lessonData = storageData[1]
   }
   ngOnInit() {
     this.updateData()
