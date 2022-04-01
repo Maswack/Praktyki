@@ -32,6 +32,7 @@ export class Tab4Page implements OnInit {
     name: "",
   }
 
+  auto_login: boolean;
   loginDisplay: any;
   profileDisplay: any;
 
@@ -53,8 +54,17 @@ export class Tab4Page implements OnInit {
   }
   ngAfterViewInit() {
     this.postLoginEnv("none", "block");
+    this.loginAuto();
   }
-
+  resetInput(fully) {
+    this.passwordInput.nativeElement.value = "";
+    if(fully) 
+      this.nameInput.nativeElement.value = "";
+  }
+  resetAutoLogin() {
+    window.localStorage.setItem('name', '');
+    window.localStorage.setItem('password', '')
+  }
   postLoginEnv(profileOption, loginOption) {
     this.profileDisplay = profileOption;
     this.loginDisplay = loginOption;
@@ -96,6 +106,7 @@ export class Tab4Page implements OnInit {
   async loginFunction() {
     const name = this.nameInput.nativeElement.value;
     const password = this.passwordInput.nativeElement.value;
+    const autoLogin = this.auto_login
 
     this.resetInput(false);
 
@@ -117,6 +128,11 @@ export class Tab4Page implements OnInit {
           alert.present();
           return 0;
         }
+          if(autoLogin) {
+            window.localStorage.setItem('name', name);
+            window.localStorage.setItem('password', password)
+          }
+        
           const data = await this.storageService.getData();
 
           const lessonData = res[0].res[0]
@@ -162,21 +178,6 @@ export class Tab4Page implements OnInit {
     )
   }
 
-  async logOutFunction() {
-    this.sendDataToServer(this.user.id);
-
-    const data = {
-      id: 1,
-      name: ''
-    }
-    this.user = data;
-    this.lessonData.chessLessonsDone = 0;
-
-    this.postLoginEnv("none", "block");
-    this.resetInput(true);
-  }
-
-
   async sendDataToServer(id) {
     const storageData = await this.storageService.getData();
     const lessonData = storageData[1];
@@ -189,12 +190,37 @@ export class Tab4Page implements OnInit {
     )
   }
 
+  async logOutFunction() {
+    this.sendDataToServer(this.user.id);
 
+    const data = {
+      id: 1,
+      name: ''
+    }
+    this.user = data;
+    this.lessonData.chessLessonsDone = 0;
 
-  resetInput(fully) {
-    this.passwordInput.nativeElement.value = "";
-    if(fully) 
-      this.nameInput.nativeElement.value = "";
+    this.postLoginEnv("none", "block");
+    this.resetInput(true);
+    this.resetAutoLogin();
   }
 
+  loginAuto() {
+    if(window.localStorage.getItem('name') != 'undefined' && window.localStorage.getItem('name') != null) {
+
+      const name = window.localStorage.getItem('name');
+      const password = window.localStorage.getItem('password');
+
+      if(name != '' ){
+        this.nameInput.nativeElement.value = name;
+        this.passwordInput.nativeElement.value = password
+
+        this.loginFunction();
+      }
+
+    }
+    else {
+      this.resetAutoLogin();
+    }
+  }
 }

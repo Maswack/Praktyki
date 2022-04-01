@@ -24,10 +24,13 @@
       <ion-input type="password" #password></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label>Auto Login</ion-label>
+      <ion-checkbox color="primary" [(ngModel)]="auto_login"></ion-checkbox>
+    </ion-item>
 
     <ion-button expand="block" (click)="loginFunction()">Login</ion-button>
     <ion-button expand="block" (click)="registerFunction()">Register</ion-button>
-
 
   </ion-list>
   
