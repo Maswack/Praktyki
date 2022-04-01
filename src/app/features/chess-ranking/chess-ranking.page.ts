@@ -20,10 +20,10 @@ export class Tab4Page implements OnInit {
     highScore: 0,
     completed: 0
   };
-
+  playerId: number;
   ranking : any;
 
-  lessonData: any = {
+  lessonData= {
     chessLessonsDone: 0
   }
 
@@ -32,6 +32,7 @@ export class Tab4Page implements OnInit {
     name: "",
   }
 
+  auto_login: boolean;
   loginDisplay: any;
   profileDisplay: any;
 
@@ -43,9 +44,18 @@ export class Tab4Page implements OnInit {
 
   async updateData()
   {
-    const data = await this.storageService.getData()
-    this.statsEater = data[0].eater;
-    this.lessonData = data[1]
+    const storageData = await this.storageService.getData();
+    this.playerId = storageData[2].id;
+    this.http.get(`http://localhost:3000/geteater/${this.playerId}`).pipe(
+      map(r => r)
+    ).subscribe(resp => {
+        this.statsEater.completed = resp[0].completed
+        this.statsEater.clickedRight = resp[0].selected
+        this.statsEater.clickedWrong = resp[0].mistakes
+        this.statsEater.highScore = resp[0].highscore
+      }
+    );
+    this.lessonData = storageData[1]
   }
   ngOnInit() {
     this.updateData()
@@ -53,8 +63,17 @@ export class Tab4Page implements OnInit {
   }
   ngAfterViewInit() {
     this.postLoginEnv("none", "block");
+    this.loginAuto();
   }
-
+  resetInput(fully) {
+    this.passwordInput.nativeElement.value = "";
+    if(fully) 
+      this.nameInput.nativeElement.value = "";
+  }
+  resetAutoLogin() {
+    window.localStorage.setItem('name', '');
+    window.localStorage.setItem('password', '')
+  }
   postLoginEnv(profileOption, loginOption) {
     this.profileDisplay = profileOption;
     this.loginDisplay = loginOption;
@@ -96,6 +115,7 @@ export class Tab4Page implements OnInit {
   async loginFunction() {
     const name = this.nameInput.nativeElement.value;
     const password = this.passwordInput.nativeElement.value;
+    const autoLogin = this.auto_login
 
     this.resetInput(false);
 
@@ -117,6 +137,11 @@ export class Tab4Page implements OnInit {
           alert.present();
           return 0;
         }
+          if(autoLogin) {
+            window.localStorage.setItem('name', name);
+            window.localStorage.setItem('password', password)
+          }
+        
           const data = await this.storageService.getData();
 
           const lessonData = res[0].res[0]
@@ -162,21 +187,6 @@ export class Tab4Page implements OnInit {
     )
   }
 
-  async logOutFunction() {
-    this.sendDataToServer(this.user.id);
-
-    const data = {
-      id: 1,
-      name: ''
-    }
-    this.user = data;
-    this.lessonData.chessLessonsDone = 0;
-
-    this.postLoginEnv("none", "block");
-    this.resetInput(true);
-  }
-
-
   async sendDataToServer(id) {
     const storageData = await this.storageService.getData();
     const lessonData = storageData[1];
@@ -189,12 +199,37 @@ export class Tab4Page implements OnInit {
     )
   }
 
+  async logOutFunction() {
+    this.sendDataToServer(this.user.id);
 
+    const data = {
+      id: 1,
+      name: ''
+    }
+    this.user = data;
+    this.lessonData.chessLessonsDone = 0;
 
-  resetInput(fully) {
-    this.passwordInput.nativeElement.value = "";
-    if(fully) 
-      this.nameInput.nativeElement.value = "";
+    this.postLoginEnv("none", "block");
+    this.resetInput(true);
+    this.resetAutoLogin();
   }
 
+  loginAuto() {
+    if(window.localStorage.getItem('name') != 'undefined' && window.localStorage.getItem('name') != null) {
+
+      const name = window.localStorage.getItem('name');
+      const password = window.localStorage.getItem('password');
+
+      if(name != '' ){
+        this.nameInput.nativeElement.value = name;
+        this.passwordInput.nativeElement.value = password
+
+        this.loginFunction();
+      }
+
+    }
+    else {
+      this.resetAutoLogin();
+    }
+  }
 }

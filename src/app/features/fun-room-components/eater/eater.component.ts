@@ -56,8 +56,8 @@ export class EaterComponent{
   completedLevels = [];
   goodAnswers = 0;
   piecesSelected = [];
-  minutesRemaining = 1;
-  secondsRemaining = "00";
+  minutesRemaining = 0;
+  secondsRemaining = "10";
   interval : any;
   constructor(
       private http: HttpClient,
@@ -179,9 +179,9 @@ export class EaterComponent{
     this.storageService.updateData(funRoomData, 0)
 
     const body = {
-      nick: "heppe",
+      playerId: data[2].id,
       score: this.stats.clickedRight,
-      wrong: this.stats.clickedWrong,
+      mistakes: this.stats.clickedWrong,
       completed: this.stats.completed,
       highscore: this.stats.highScore
     }

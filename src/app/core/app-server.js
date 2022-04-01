@@ -24,7 +24,7 @@ const serverMaslaka = {
 app.use(cors());
 app.options("*", cors());
 app.use(bodyParser.json());
-const db = mysql.createConnection(serverMaslaka)
+const db = mysql.createConnection(serverCheppe)
 
 
 db.connect(err => {
@@ -45,13 +45,41 @@ app.get('/getrankings', (req, res) =>{
 })
 
 app.post('/rankings', (req, res) =>{
-    db.query(`SELECT score from rankings WHERE nick = '${req.body.nick}' ORDER BY score desc LIMIT 1`, (err, result) => {
+    db.query(`SELECT * from eater WHERE playerId = ${req.body.playerId}`, (err, result) => {
         if(err) throw err;
-        if(result[0] || result[0].score < req.body.score)
+        if(result.length)
         {
-            db.query(`DELETE from rankings WHERE nick = '${req.body.nick}'`)
-            let sql = `INSERT INTO rankings(nick, score) VALUES('${req.body.nick}', ${req.body.score}, ${req.body.wrong}, ${req.body.completed}, ${req.body.highscore})`;
+            db.query(
+                `UPDATE eater SET completed = ${req.body.completed + result[0].completed},
+                selected = ${req.body.score + result[0].selected},
+                highscore = ${req.body.highscore},
+                mistakes = ${req.body.mistakes + result[0].mistakes}
+                WHERE playerId = ${req.body.playerId}`, (err) =>{
+                if(err) throw err;
+            })
+        }
+        else
+        {
+            db.query(
+                `INSERT INTO eater(playerId, completed, selected, highscore, mistakes) 
+                VALUES(${req.body.playerId}, ${req.body.completed}, ${req.body.score}, ${req.body.highscore}, ${req.body.mistakes})`, (err) =>{
+                if(err) throw err;
+            })
+        }
+    })
+
+    db.query(`SELECT score from rankings WHERE nick = (SELECT name from appuser WHERE id = ${req.body.playerId}) ORDER BY score desc LIMIT 1`, (err, result) => {
+        if(err) throw err;
+        if(!result[0])
+        {
+            let sql = `INSERT INTO rankings(nick, score) VALUES((SELECT name from appuser WHERE id = ${req.body.playerId}), ${req.body.score})`;
             db.query(sql, (err) =>{
+                if(err) throw err;
+            })
+        }
+        if(result[0] && result[0].score < req.body.score)
+        {
+            db.query(`UPDATE rankings SET score = ${req.body.score} WHERE nick = (SELECT name from appuser WHERE id = ${req.body.playerId})`, (err) =>{
                 if(err) throw err;
             })
         }
@@ -137,4 +165,21 @@ app.post('/sendDataToServer', async (req, res) => {
     })
 
     //sql2 = ''
+})
+
+app.get('/geteater/:playerid', (req, res) =>{
+    let sql = `SELECT * from eater WHERE playerId = ${req.params.playerid}`;
+    db.query(sql, (err, result) =>{
+        if(err) throw err;
+        if(!result.length)
+        {
+            db.query(`INSERT INTO eater(playerId, completed, selected, highscore, mistakes) 
+            VALUES(${req.params.playerid}, 0, 0, 0, 0)`, (err) => {if(err) throw err;})
+            db.query(`SELECT * from eater WHERE playerId = '${req.params.playerid}'`, (err, result2) =>{
+                if(err) throw err;
+                res.send(result2);
+            })
+        }
+        else res.send(result);
+    })
 })
