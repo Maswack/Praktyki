@@ -55,7 +55,7 @@
     <h2 [ngStyle]="{ 'display': profileDisplay }">Statystyki W lekcjach:</h2>
     <ion-list [ngStyle]="{ 'display': profileDisplay }">
       <ion-item>
-        <ion-label class="statsProfile"><strong class="statsNumber">{{ data.chessLessonsDone }}</strong> Ukonczonych lekcji</ion-label>
+        <ion-label class="statsProfile"><strong class="statsNumber">{{ lessonData.chessLessonsDone }}</strong> Ukonczonych lekcji</ion-label>
       </ion-item>
       <ion-button (click)="showRankings()"><ion-icon name="log-out-outline"></ion-icon>Rankingi</ion-button>
       <ion-button (click)="handleButtonClick()"><ion-icon name="log-out-outline"></ion-icon>Wyloguj</ion-button>

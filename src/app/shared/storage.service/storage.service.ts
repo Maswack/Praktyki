@@ -35,9 +35,11 @@ export class StorageService {
         chessLessonsDone: 0
     })
     await this.addData({
+      id: 0,
       actualLesson: 0,
       isActualLessonDone: false,
     })
+
   }
 
   getData()
