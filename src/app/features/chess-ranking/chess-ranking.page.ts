@@ -53,6 +53,8 @@ export class Tab4Page implements OnInit {
         this.statsEater.clickedRight = resp[0].selected
         this.statsEater.clickedWrong = resp[0].mistakes
         this.statsEater.highScore = resp[0].highscore
+        const newFunRoom = {eater: this.statsEater, memorizer: storageData[0].memorizer}
+        this.storageService.updateData(newFunRoom, 0)
       }
     );
     this.lessonData = storageData[1]
@@ -64,6 +66,9 @@ export class Tab4Page implements OnInit {
   ngAfterViewInit() {
     this.postLoginEnv("none", "block");
     this.loginAuto();
+  }
+  zaslonaFunction(display) {
+    this.tabs.zaslona.nativeElement.style.display = display;
   }
   resetInput(fully) {
     this.passwordInput.nativeElement.value = "";
@@ -155,6 +160,7 @@ export class Tab4Page implements OnInit {
 
           this.postLoginEnv("block","none");
           this.updateData()
+          this.zaslonaFunction("none")
        },
       (err) => { console.log(err) }
     )
@@ -206,12 +212,25 @@ export class Tab4Page implements OnInit {
       id: 1,
       name: ''
     }
+    const nullUser = {
+      actualLesson: 0,
+      id: 0,
+      isActualLessonDone: false
+    }
+    const resetLesson = {
+      chessLessonsDone : 0
+    }
+
+
     this.user = data;
     this.lessonData.chessLessonsDone = 0;
+    await this.storageService.updateData(nullUser, 2)
+    await this.storageService.updateData(resetLesson, 1)
 
     this.postLoginEnv("none", "block");
     this.resetInput(true);
     this.resetAutoLogin();
+    this.zaslonaFunction('block')
   }
 
   loginAuto() {
