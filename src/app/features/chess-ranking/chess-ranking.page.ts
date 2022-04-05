@@ -29,6 +29,7 @@ export class Tab4Page implements OnInit {
 
   user: any = {
     id: 1,
+    role: "",
     name: "",
   }
 
@@ -46,7 +47,7 @@ export class Tab4Page implements OnInit {
   {
     const storageData = await this.storageService.getData();
     this.playerId = storageData[2].id;
-    this.http.get(`http://localhost:3000/geteater/${this.playerId}`).pipe(
+    this.http.get(`http://localhost:3000/apiRouter/user/geteater/${this.playerId}`).pipe(
       map(r => r)
     ).subscribe(resp => {
         this.statsEater.completed = resp[0].completed
@@ -104,7 +105,7 @@ export class Tab4Page implements OnInit {
   }
   async showRankings()
   {
-    this.http.get('http://localhost:3000/getrankings').pipe(
+    this.http.get('http://localhost:3000/apiRouter/user/getrankings').pipe(
       map(r => r)
     ).subscribe(resp => {
         this.ranking = resp
@@ -130,11 +131,10 @@ export class Tab4Page implements OnInit {
       password: password
     }
 
-    this.http.post('http://localhost:3000/login', data).
+    this.http.post('http://localhost:3000/apiRouter/login', data).
     pipe(map(r => r)).subscribe(
       async (res) => {
-        this.user = res;
-        if(this.user.name == "user not found") {
+        if(res == "Invalid Name or Pasword") {
           const alert = await this.alertController.create({
             header: 'Błędne dane logowania'
           });
@@ -142,17 +142,24 @@ export class Tab4Page implements OnInit {
           alert.present();
           return 0;
         }
-          if(autoLogin) {
-            window.localStorage.setItem('name', name);
-            window.localStorage.setItem('password', password)
-          }
-        
+
+          this.user = res[0];
+          const token = res[1]
+          const lessonData = res[2]
+
+          console.log(res)
+
+          // if(autoLogin) {
+          //   window.localStorage.setItem('name', name);
+          //   window.localStorage.setItem('password', password)
+          // }
+
+
           const data = await this.storageService.getData();
 
-          const lessonData = res[0].res[0]
-          this.user = await res[1].data;
+          console.log(this.user, lessonData)
 
-          data[1].chessLessonsDone = lessonData.lessonsDone;
+          data[1].chessLessonsDone = lessonData[0].lessonsDone;
           data[2].id = this.user.id
 
           await this.storageService.updateData(data[1], 1)
@@ -178,7 +185,7 @@ export class Tab4Page implements OnInit {
       password: password
     }
 
-    this.http.post('http://localhost:3000/register', data).subscribe(
+    this.http.post('http://localhost:3000/apiRouter/register', data).subscribe(
       async (res) => {
         const alert = await this.alertController.create({
           header: 'Gratulacje',
@@ -199,7 +206,7 @@ export class Tab4Page implements OnInit {
 
     const data = [{lessonData}, {id}]
 
-    this.http.post('http://localhost:3000/sendDataToServer', data).subscribe(
+    this.http.post('http://localhost:3000/apiRouter/user/sendDataToServer', data).subscribe(
       (res) => {},
       (err) => console.log(err)
     )
