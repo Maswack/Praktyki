@@ -145,7 +145,6 @@ export class RookLessonComponent {
   }
 
   async updateActualLessonData() {
-    console.log("works")
     const lessonData = this.actualLessonData;
 
     lessonData.isActualLessonDone = true;
