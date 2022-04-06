@@ -1,0 +1,33 @@
+.statsProfile{
+    font-size: 14px;
+}
+.statsNumber{
+    font-size: 18px;
+}
+.scoreboardColumn{
+    width:auto;
+    text-align: left;
+    background-color: #000;
+    margin:1px;
+}
+.topColumn{
+    font-size: 14px;
+    background-color: #222;
+}
+#blankScoreboard{
+    display:none;
+    width:0;
+}
+#scoreboard{
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    top:150px;
+    background-color: #222;
+    flex-direction: column;
+    width:260px;
+    border: #ddd solid 1px;
+}

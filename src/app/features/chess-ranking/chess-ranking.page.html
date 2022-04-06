@@ -1,0 +1,86 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      {{ user.name }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large"> {{ user.name }} </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list [ngStyle]="{ 'display': loginDisplay }">
+    <ion-item>
+      <ion-label>Name</ion-label>
+      <ion-input #name></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Password</ion-label>
+      <ion-input type="password" #password></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Auto Login</ion-label>
+      <ion-checkbox color="primary" [(ngModel)]="auto_login"></ion-checkbox>
+    </ion-item>
+
+    <ion-button expand="block" (click)="loginFunction()">Login</ion-button>
+    <ion-button expand="block" (click)="registerFunction()">Register</ion-button>
+
+  </ion-list>
+  
+ 
+  <!-- <ion-item [ngStyle]="{ 'display': profileDisplay }"> -->
+    <ion-avatar [ngStyle]="{ 'display': profileDisplay }">
+      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" #avatar>
+    </ion-avatar>
+    <h2 [ngStyle]="{ 'display': profileDisplay }">Staystyki w grze Eater:</h2>
+    <ion-list [ngStyle]="{ 'display': profileDisplay }">
+      <ion-item>
+        <ion-label class="statsProfile"><strong class="statsNumber">{{ statsEater.completed }}</strong> Ukończonych zadań</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label class="statsProfile"><strong class="statsNumber">{{ statsEater.clickedRight }}</strong> Poprawnie zaznaczone</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label class="statsProfile"><strong class="statsNumber">{{ statsEater.highScore }}</strong> Najlepszy wynik</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label class="statsProfile"><strong class="statsNumber">{{ statsEater.clickedWrong }}</strong> Błędnie zaznaczone</ion-label>
+      </ion-item>
+    </ion-list>
+    <br>
+    <h2 [ngStyle]="{ 'display': profileDisplay }">Statystyki W lekcjach:</h2>
+    <ion-list [ngStyle]="{ 'display': profileDisplay }">
+      <ion-item>
+        <ion-label class="statsProfile"><strong class="statsNumber">{{ lessonData.chessLessonsDone }}</strong> Ukonczonych lekcji</ion-label>
+      </ion-item>
+      <ion-button (click)="showRankings()"><ion-icon name="log-out-outline"></ion-icon>Rankingi</ion-button>
+      <ion-button (click)="handleButtonClick()"><ion-icon name="log-out-outline"></ion-icon>Wyloguj</ion-button>
+    </ion-list>
+  <!-- </ion-item> -->
+  <ion-grid id="blankScoreboard">
+    <ion-row>
+      <ion-col class="scoreboardColumn topColumn">
+        <div>Pseudonim</div>
+      </ion-col>
+      <ion-col class="scoreboardColumn topColumn">
+        <div>Najlepszy Wynik</div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let rank of ranking">
+      <ion-col class="scoreboardColumn">
+        <div>{{ rank.nick }}</div>
+      </ion-col>
+      <ion-col class="scoreboardColumn">
+        <div>{{ rank.score }}</div>
+      </ion-col>
+    </ion-row>
+    <ion-button (click)="closeScoreboard()">Zamknij</ion-button>
+  </ion-grid>
+</ion-content>

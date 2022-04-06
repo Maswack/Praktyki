@@ -1,0 +1,22 @@
+<div id="howToPlay" #howToPlay>Znajdź wszystkie legalne bicia w pozycji, przejdź do następnych przykładów i zdobądź jak najwięcej punktów w ciągu jednej minuty! Udanej zabawy!</div>
+<div id="endScreenScoreboard" #endScreenScoreboard>Koniec czasu!<br>
+    <ion-label class="statsProfile"><strong class="statsNumber">{{ stats.completed }}</strong> Ukończonych zadań</ion-label><br>
+    <ion-label class="statsProfile"><strong class="statsNumber">{{ stats.clickedRight }}</strong> Poprawnie zaznaczonych bierek</ion-label><br>
+    <ion-label class="statsProfile"><strong class="statsNumber">{{ stats.highScore }}</strong> Najlepszy wynik</ion-label><br>
+    <ion-label class="statsProfile"><strong class="statsNumber">{{ stats.clickedWrong }}</strong> Błędnie zaznaczonych bierek</ion-label><br>
+</div>
+  <ngx-chess-board #board id="chessboardEater"
+  [darkDisabled] = "true"
+  [lightDisabled] = "true"
+  [size] = "screenWidth"
+></ngx-chess-board>
+<div id="eaterBottomPanel">
+    <ion-button (click)='startEater()' id="startEater">Start!</ion-button>
+    <div #timer id="timer">{{ minutesRemaining }}:{{ secondsRemaining }}
+    </div>
+    <style>
+      .single-piece{
+    font-family: "FreeSerif" !important;
+}
+    </style>
+</div>

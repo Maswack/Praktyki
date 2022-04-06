@@ -1,0 +1,7 @@
+{
+  "name": "Szachy",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

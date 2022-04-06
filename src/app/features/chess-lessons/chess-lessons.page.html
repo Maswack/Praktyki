@@ -1,0 +1,39 @@
+<ion-header [translucent]="true" #header1>
+  <ion-toolbar>
+    <ion-title>
+      Lekcje
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  
+  <ion-header collapse="condense" #header2>
+    <ion-toolbar>
+      <ion-button style="display: none;" #goBackButton (click)="goBack()">Wroc</ion-button> <ion-title size="large" #title>Lekcje</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div #container id="container">
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(0)"><ion-icon></ion-icon>Linie 1</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(1)"><ion-icon></ion-icon>Linie 2</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(2)"><ion-icon></ion-icon>Wieża</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(3)"><ion-icon></ion-icon>Wieża Bicie</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(4)"><ion-icon></ion-icon>Goniec</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(5)"><ion-icon></ion-icon>Goniec Bicie</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(6)"><ion-icon></ion-icon>Hetman</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(7)"><ion-icon></ion-icon>Hetman Bicie</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(8)"><ion-icon></ion-icon>Skoczek</ion-button></ion-item>
+    <ion-item><ion-button color="tertiary" size="large" style="width: 100%;" (click)="startLesson(9)"><ion-icon></ion-icon>Skoczek Bicie</ion-button></ion-item>
+  </div>
+  <div class="ad-banner-example">
+    <app-lesson [lessons] = "lessons" lessonHost></app-lesson>
+  </div>
+
+</ion-content>
+
+
+
+
+

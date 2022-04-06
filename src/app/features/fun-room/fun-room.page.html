@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Zabawa Pokój
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Zabawa Pokój</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div>
+    <div #container>
+      <div class="fun-room-banner">
+        <h3 style="float: left; font-size: 18px;">PASI<br>BRZUCH</h3>
+        <img src="../../../assets/bruh.jpg" alt="grubas" class="fun-room-banner-icon">
+        <ion-button (click) = "playFunRoom(0)">Graj</ion-button>
+      </div>
+    </div>
+  <ion-button #return id="returnButton" (click) = 'returnToFunRoom()' style="display:none">Powrót</ion-button>
+  </div>
+  <app-game [games] = "games"></app-game>
+</ion-content>

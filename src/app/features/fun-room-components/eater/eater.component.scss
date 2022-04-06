@@ -1,0 +1,25 @@
+#howToPlay, #endScreenScoreboard{
+    background-color: #Fb4;
+    font-size: 20px;
+    position:absolute;
+    z-index: 99999;
+    padding: 15px;
+    border-radius: 20px;
+    opacity: 0.95;
+    margin-top: 10px;
+}
+#endScreenScoreboard{
+    display: none;
+}
+#timer{
+    font-size: 48px;
+    font-weight: 700;
+}
+#eaterBottomPanel{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+.statsNumber{
+    font-size: 24px;
+}

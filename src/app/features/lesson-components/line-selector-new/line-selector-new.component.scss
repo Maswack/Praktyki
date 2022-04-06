@@ -1,0 +1,41 @@
+//line-selector
+#chessboard {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.chessTile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tabs {
+    pointer-events: none;
+}
+#tabBar {
+    pointer-events: all;
+}
+
+//chessboard
+.white {
+    background-color: rgb(97, 84, 61);
+    width: 34.5px;
+    height: 34.5px;
+    display: inline-block;
+}
+.black {
+    background-color: #BAA378;
+    width: 34.5px;
+    height: 34.5px;
+    display: inline-block;
+}
+#chessBoardComponent {
+    width: 276px;
+    height: 276px;
+    
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
