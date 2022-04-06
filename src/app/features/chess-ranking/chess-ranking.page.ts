@@ -50,7 +50,9 @@ export class Tab4Page implements OnInit {
     this.http.get(`http://localhost:3000/apiRouter/user/geteater/${this.playerId}`, { withCredentials: true }).pipe(
       map(r => r)
     ).subscribe(resp => {
-        if(resp != "Acces Denied! Unauthorized User")
+      const data: any = resp;
+
+        if(data.message != "Acces Denied! Unauthorized User")
         {
           this.statsEater.completed = resp[0].completed
           this.statsEater.clickedRight = resp[0].selected
