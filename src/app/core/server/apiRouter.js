@@ -6,7 +6,7 @@ const { hashSync, compareSync, genSaltSync, genSalt } = require("bcrypt");
 const cookieParser = require('cookie-parser')
 const jsonwebtoken = require('jsonwebtoken')
 const db = require('./db');
-const { json } = require('body-parser');
+
 
 
 apiRouter.use(cookieParser())
@@ -31,11 +31,8 @@ apiRouter.post('/register', async (req, res, next) => {
 
         await db.createLessonData(user.insertId)
 
-
-        res.cookie('token', jsonToken, {httpOnly: true, secure: true, sameSite: 'strict', 
+        res.cookie('token', jsonToken, {httpOnly: true, secure: false, sameSite: 'strict', 
             expires: new Date(Date.now() + 30 * 60 * 1000)})
-
-        res.json({"message": "xd"})
     }
     catch(e) {
         console.log(e)
@@ -62,15 +59,19 @@ apiRouter.post('/login', async (req, res, next) => {
         if(isValidPassword) {
             user.password = undefined
 
-            const jsonToken = jsonwebtoken.sign({user:user}, process.env.SECRET_KEY, {expiresIn: '30m'})
-
-            res.cookie('token', jsonToken, {httpOnly:true, secure:true, sameSite:'strict', expires:
-                new Date(Date.now() + 30 * 60 * 1000)
-            })
-
+            res.header('Access-Control-Allow-Credentials', true);
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             const lessonData = await db.getLessonData(user.id)
+        
+            const jsonToken = jsonwebtoken.sign({user:user}, process.env.SECRET_KEY, {expiresIn: '30m'})
+            res.cookie('token', jsonToken, {httpOnly:false, secure:true, sameSite:'strict', 
+                expires: new Date(Number(new Date()) + 30 * 60 * 1000)
+            }).
+            json([user, lessonData])
 
-            res.json([user, jsonToken, lessonData])
+            //res.header('Access-Control-Allow-Origin', 'http://localhost:3000/');
+            
         }
     } 
     catch (e) {
@@ -81,8 +82,7 @@ apiRouter.post('/login', async (req, res, next) => {
 
 
 async function verifyToken (req, res, next) {
-    const token = req.cookies.token;
-    console.log(token)
+    const token = req.cookies.token
 
     if(token === undefined) {
 
@@ -96,16 +96,13 @@ async function verifyToken (req, res, next) {
                 })
             }
             else {
-                console.log(authData.user.role)
                 const role = authData.user.role;
 
-                if(role === "admin") {
+                if(role === "admin" || role === "user") {
                     next()
                 }
                 else {
-                    return res.json({
-                        message: "Access Denied!, you are not an Admin"
-                    })
+                    return res.json({message: "Acces Denied! You are not an Admin!"})
                 }
             }
         })

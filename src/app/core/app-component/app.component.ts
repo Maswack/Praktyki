@@ -39,7 +39,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
     const data = [{lessonData}, {id}]
 
-    this.http.post('http://localhost:3000/sendDataToServer', data).subscribe(
+    this.http.post('http://localhost:3000/apiRouter/user/sendDataToServer', data, {withCredentials: true}).subscribe(
       (res) => {},
       (err) => console.log(err)
     )

@@ -47,15 +47,18 @@ export class Tab4Page implements OnInit {
   {
     const storageData = await this.storageService.getData();
     this.playerId = storageData[2].id;
-    this.http.get(`http://localhost:3000/apiRouter/user/geteater/${this.playerId}`).pipe(
+    this.http.get(`http://localhost:3000/apiRouter/user/geteater/${this.playerId}`, { withCredentials: true }).pipe(
       map(r => r)
     ).subscribe(resp => {
-        this.statsEater.completed = resp[0].completed
-        this.statsEater.clickedRight = resp[0].selected
-        this.statsEater.clickedWrong = resp[0].mistakes
-        this.statsEater.highScore = resp[0].highscore
-        const newFunRoom = {eater: this.statsEater, memorizer: storageData[0].memorizer}
-        this.storageService.updateData(newFunRoom, 0)
+        if(resp != "Acces Denied! Unauthorized User")
+        {
+          this.statsEater.completed = resp[0].completed
+          this.statsEater.clickedRight = resp[0].selected
+          this.statsEater.clickedWrong = resp[0].mistakes
+          this.statsEater.highScore = resp[0].highscore
+          const newFunRoom = {eater: this.statsEater, memorizer: storageData[0].memorizer}
+          this.storageService.updateData(newFunRoom, 0)
+        }
       }
     );
     this.lessonData = storageData[1]
@@ -105,7 +108,7 @@ export class Tab4Page implements OnInit {
   }
   async showRankings()
   {
-    this.http.get('http://localhost:3000/apiRouter/user/getrankings').pipe(
+    this.http.get('http://localhost:3000/apiRouter/user/getrankings', { withCredentials: true }).pipe(
       map(r => r)
     ).subscribe(resp => {
         this.ranking = resp
@@ -130,8 +133,7 @@ export class Tab4Page implements OnInit {
       name: name,
       password: password
     }
-
-    this.http.post('http://localhost:3000/apiRouter/login', data).
+    this.http.post('http://localhost:3000/apiRouter/login', data, {withCredentials: true }).
     pipe(map(r => r)).subscribe(
       async (res) => {
         if(res == "Invalid Name or Pasword") {
@@ -144,10 +146,7 @@ export class Tab4Page implements OnInit {
         }
 
           this.user = res[0];
-          const token = res[1]
-          const lessonData = res[2]
-
-          console.log(res)
+          const lessonData = res[1]
 
           // if(autoLogin) {
           //   window.localStorage.setItem('name', name);
@@ -157,9 +156,7 @@ export class Tab4Page implements OnInit {
 
           const data = await this.storageService.getData();
 
-          console.log(this.user, lessonData)
-
-          data[1].chessLessonsDone = lessonData[0].lessonsDone;
+          data[1].chessLessonsDone = lessonData[0].lessonsdone;
           data[2].id = this.user.id
 
           await this.storageService.updateData(data[1], 1)
@@ -185,7 +182,7 @@ export class Tab4Page implements OnInit {
       password: password
     }
 
-    this.http.post('http://localhost:3000/apiRouter/register', data).subscribe(
+    this.http.post('http://localhost:3000/apiRouter/register', data, { withCredentials: true }).subscribe(
       async (res) => {
         const alert = await this.alertController.create({
           header: 'Gratulacje',
@@ -206,7 +203,7 @@ export class Tab4Page implements OnInit {
 
     const data = [{lessonData}, {id}]
 
-    this.http.post('http://localhost:3000/apiRouter/user/sendDataToServer', data).subscribe(
+    this.http.post('http://localhost:3000/apiRouter/user/sendDataToServer', data, { withCredentials: true }).subscribe(
       (res) => {},
       (err) => console.log(err)
     )

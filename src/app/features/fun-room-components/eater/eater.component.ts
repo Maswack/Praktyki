@@ -185,6 +185,6 @@ export class EaterComponent{
       completed: this.stats.completed,
       highscore: this.stats.highScore
     }
-    this.http.post('http://localhost:3000/apiRouter/user/setrankings', body).subscribe()
+    this.http.post('http://localhost:3000/apiRouter/user/setrankings', body, { withCredentials: true }).subscribe()
   }
 }

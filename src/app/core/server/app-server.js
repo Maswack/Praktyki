@@ -14,11 +14,15 @@ const app = express();
 
 const PORT = process.env.PORT
 
-
-app.use(cors());
-app.options("*", cors());
+var corsOptions = {
+    origin: 'http://localhost'
+}
+app.use(cors({credentials: true, origin: 'http://localhost:8100'}));
+app.options('*', cors());
 app.use(bodyParser.json());
 apiRouter.use(cookieParser())
+apiRouter.use(cors())
+apiRouter.options(corsOptions, cors())
 
 app.use('/apiRouter', apiRouter)
 

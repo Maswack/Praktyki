@@ -124,7 +124,6 @@ db.getRankings = () => {
         
         connection.query(sql, async (err, res) => {
             if (err) return reject(err)
-
             return resolve(res)
         })
     })
@@ -159,7 +158,7 @@ db.setRankings = (req) => {
                     VALUES(${req.body.playerId}, ${req.body.completed}, ${req.body.score},
                          ${req.body.highscore}, ${req.body.mistakes})`
 
-                db.query(sql3, (err) =>{
+                connection.query(sql3, (err) =>{
                     if(err) return reject(err);
                 })
             }
@@ -179,7 +178,7 @@ db.setRankings = (req) => {
                  ${req.body.score})`;
 
 
-                db.query(sql, (err) =>{
+                connection.query(sql, (err) =>{
                     if(err) return reject(err);
                 })
             }
@@ -188,7 +187,7 @@ db.setRankings = (req) => {
                 const sql = `UPDATE rankings SET score = ${req.body.score}
                  WHERE nick = (SELECT name from appuser WHERE id = ${req.body.playerId})`
 
-                db.query(sql, (err) =>{
+                connection.query(sql, (err) =>{
                     if(err) return reject(err);
                 })
             }
@@ -203,7 +202,7 @@ db.sendDataToServer = (req) => {
 
         const sql = `UPDATE lessondata SET lessonsDone = ${chessLesson} WHERE userId = ${id}`
 
-        db.query(sql, async(err, result) => {
+        connection.query(sql, async(err, result) => {
             if(err) return reject(err)
         })
     })
@@ -214,7 +213,7 @@ db.getEater = (req) => {
     return new Promise( (resolve, reject) => {
         const sql = `SELECT * from eater WHERE playerId = ${req.params.playerid}`;
     
-        db.query(sql, (err, result) =>{
+        connection.query(sql, (err, result) =>{
             if(err) return reject(err);
 
             if(!result.length)
@@ -223,13 +222,13 @@ db.getEater = (req) => {
                 VALUES(${req.params.playerid}, 0, 0, 0, 0)`
                 
                 
-                db.query(sql1, (err) => {
+                connection.query(sql1, (err) => {
                     if(err) return reject(err);
                 })
 
                 const sql2 = `SELECT * from eater WHERE playerId = '${req.params.playerid}'`
 
-                db.query(sql2, (err, result2) =>{
+                connection.query(sql2, (err, result2) =>{
                     if(err) throw err;
                     
                     return resolve(result2);
