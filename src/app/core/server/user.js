@@ -1,6 +1,7 @@
 const express = require('express')
 const db = require('./db')
 const userRouter = express.Router();
+const bcrypt = require('bcrypt')
 
 const { hashSync, genSaltSync, compareSync } = require('bcrypt')
 
@@ -31,4 +32,16 @@ userRouter.get('/geteater/:playerid', async (req, res) =>{
     const eaterResult = await db.getEater(req)
 
     res.send(eaterResult)
+})
+
+
+userRouter.get('/autoLogin', async (req, res) => {
+    const token = req.cookies.token
+
+    const user = await db.checkToken(token)
+    user.password = null
+    
+    const lessonData = await db.getLessonData(user.id)
+
+    res.send([user, lessonData])
 })
