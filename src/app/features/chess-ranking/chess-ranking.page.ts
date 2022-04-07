@@ -50,7 +50,7 @@ export class Tab4Page implements OnInit {
     this.http.get(`http://localhost:3000/apiRouter/user/geteater/${this.playerId}`, { withCredentials: true }).pipe(
       map(r => r)
     ).subscribe(resp => {
-      const data: any = resp;
+        const data:any = resp
 
         if(data.message != "Acces Denied! Unauthorized User")
         {
