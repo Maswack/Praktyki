@@ -72,6 +72,7 @@ export class Tab4Page implements OnInit {
   ngAfterViewInit() {
     this.postLoginEnv("none", "block");
     this.loginAuto();
+
   }
   zaslonaFunction(display) {
     this.tabs.zaslona.nativeElement.style.display = display;
@@ -80,10 +81,6 @@ export class Tab4Page implements OnInit {
     this.passwordInput.nativeElement.value = "";
     if(fully) 
       this.nameInput.nativeElement.value = "";
-  }
-  resetAutoLogin() {
-    window.localStorage.setItem('name', '');
-    window.localStorage.setItem('password', '')
   }
   postLoginEnv(profileOption, loginOption) {
     this.profileDisplay = profileOption;
@@ -149,11 +146,6 @@ export class Tab4Page implements OnInit {
 
           this.user = res[0];
           const lessonData = res[1]
-
-          // if(autoLogin) {
-          //   window.localStorage.setItem('name', name);
-          //   window.localStorage.setItem('password', password)
-          // }
 
 
           const data = await this.storageService.getData();
@@ -227,34 +219,63 @@ export class Tab4Page implements OnInit {
       chessLessonsDone : 0
     }
 
+    document.cookie = "token" + '=; Max-Age=0'
 
     this.user = data;
     this.lessonData.chessLessonsDone = 0;
     await this.storageService.updateData(nullUser, 2)
     await this.storageService.updateData(resetLesson, 1)
 
+
+
     this.postLoginEnv("none", "block");
     this.resetInput(true);
-    this.resetAutoLogin();
     this.zaslonaFunction('block')
   }
 
+
+
   loginAuto() {
-    if(window.localStorage.getItem('name') != 'undefined' && window.localStorage.getItem('name') != null) {
+    const cookies = document.cookie.split(';')
+    let token:any
 
-      const name = window.localStorage.getItem('name');
-      const password = window.localStorage.getItem('password');
+    cookies.forEach( cookie => {
+      if(cookie.includes('token='))
+        token = cookie.split('=')[1]
+    })
 
-      if(name != '' ){
-        this.nameInput.nativeElement.value = name;
-        this.passwordInput.nativeElement.value = password
+    console.log(token)
 
-        this.loginFunction();
-      }
+    if(token) {
 
+      this.http.get('http://localhost:3000/apiRouter/user/autoLogin', {withCredentials:true}).
+      pipe(map(r => r)).subscribe(
+        async (res) => {
+            this.user = res[0];
+            const lessonData = res[1]
+
+
+            const data = await this.storageService.getData();
+
+            data[1].chessLessonsDone = lessonData[0].lessonsdone;
+            data[2].id = this.user.id
+
+            await this.storageService.updateData(data[1], 1)
+            await this.storageService.updateData(data[2], 2)
+
+            this.postLoginEnv("block","none");
+            this.updateData()
+            this.zaslonaFunction("none")
+        },
+
+        (err) => {
+          console.log(err)
+        }
+      )
+  
+      
+      
     }
-    else {
-      this.resetAutoLogin();
-    }
+
   }
 }

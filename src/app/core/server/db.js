@@ -1,9 +1,10 @@
 require('dotenv').config()
 const { resolve } = require('dns')
 const mysql = require('mysql')
+const jwtDecode = require('jwt-decode')
 
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
+    host: "192.168.0.164",
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.MYSQL_DB,
@@ -106,7 +107,7 @@ db.createLessonData = (id) => {
 
 db.getLessonData = (id) => {
     return new Promise( (resolve, reject) => {
-        const sql = `SELECT * FROM lessondata WHERE userId=${id}`
+        const sql = `SELECT * FROM lessondata WHERE userId = ${id}`
 
         connection.query(sql, async (err, res) => {
             if (err) return reject(err)
@@ -200,7 +201,7 @@ db.sendDataToServer = (req) => {
         const chessLesson = req.body[0].lessonData.chessLessonsDone
         const id = req.body[1].id
 
-        const sql = `UPDATE lessondata SET lessonsDone = ${chessLesson} WHERE userId = ${id}`
+        const sql = `UPDATE lessondata SET lessonsdone = ${chessLesson} WHERE userId = ${id}`
 
         connection.query(sql, async(err, result) => {
             if(err) return reject(err)
@@ -236,6 +237,24 @@ db.getEater = (req) => {
             }
             else return resolve(result);
         })
+    })
+}
+
+db.checkToken = (req) => {
+    return new Promise( (resolve, reject) => {
+        const decodedToken = jwtDecode(req)
+        const name = decodedToken.user.name
+        console.log("IMEI: " + name)
+
+        const sql = `SELECT * FROM appuser WHERE name = '${name}'`
+
+
+        connection.query(sql, (err, result) => {
+            if (err) return reject(err)
+
+            return resolve(result[0])
+        })
+
     })
 }
 
