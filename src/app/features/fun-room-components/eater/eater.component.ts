@@ -56,8 +56,8 @@ export class EaterComponent{
   completedLevels = [];
   goodAnswers = 0;
   piecesSelected = [];
-  minutesRemaining = 0;
-  secondsRemaining = "10";
+  minutesRemaining = 1;
+  secondsRemaining = "00";
   interval : any;
   constructor(
       private http: HttpClient,
