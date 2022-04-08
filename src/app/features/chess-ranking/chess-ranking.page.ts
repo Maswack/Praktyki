@@ -22,7 +22,7 @@ export class Tab4Page implements OnInit {
   };
   playerId: number;
   ranking : any;
-
+  
   lessonData= {
     chessLessonsDone: 0
   }
@@ -32,11 +32,9 @@ export class Tab4Page implements OnInit {
     role: "",
     name: "",
   }
-
   auto_login: boolean;
   loginDisplay: any;
   profileDisplay: any;
-
   @ViewChild('name', {read: ElementRef}) nameInput: ElementRef
   @ViewChild('password', {read: ElementRef}) passwordInput: ElementRef
 
@@ -147,7 +145,6 @@ export class Tab4Page implements OnInit {
           this.user = res[0];
           const lessonData = res[1]
 
-
           const data = await this.storageService.getData();
 
           data[1].chessLessonsDone = lessonData[0].lessonsdone;
@@ -244,8 +241,6 @@ export class Tab4Page implements OnInit {
         token = cookie.split('=')[1]
     })
 
-    console.log(token)
-
     if(token) {
 
       this.http.get('http://localhost:3000/apiRouter/user/autoLogin', {withCredentials:true}).
@@ -277,5 +272,43 @@ export class Tab4Page implements OnInit {
       
     }
 
+  }
+  async changeUserData()
+  {
+    console.log("Peter Griffin")
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Wpisz nowe informacje',
+      inputs: [
+        {
+          name: 'nick',
+          value: this.user.name,
+          type: 'text',
+          placeholder: 'nowy Nick',
+          id: "newUsernameField"
+        },
+        {
+          name: 'pass',
+          type: 'password',
+          placeholder: 'nowe haslo',
+          id: "newPasswordField"
+        }],
+        buttons: [
+          {
+            text: 'Zatwierdź',
+            role: 'confirm',
+            cssClass: 'secondary',
+            id: 'confirm',
+            handler: () => {
+              const body = {
+                userId: this.playerId,
+                username: (<HTMLInputElement>document.querySelector("#newUsernameField")).value,
+                password: (<HTMLInputElement>document.querySelector("#newPasswordField")).value
+              }
+              this.http.put('http://localhost:3000/apiRouter/user/changeUserInfo', body, {withCredentials:true}).subscribe()
+              this.logOutFunction();
+          }}]
+      })
+      await alert.present();
   }
 }

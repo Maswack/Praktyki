@@ -2,9 +2,11 @@ require('dotenv').config()
 const { resolve } = require('dns')
 const mysql = require('mysql')
 const jwtDecode = require('jwt-decode')
+const { hashSync, genSaltSync} = require("bcrypt");
+const jsonwebtoken = require('jsonwebtoken')
 
 const connection = mysql.createConnection({
-    host: "192.168.0.164",
+    host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.MYSQL_DB,
@@ -244,7 +246,6 @@ db.checkToken = (req) => {
     return new Promise( (resolve, reject) => {
         const decodedToken = jwtDecode(req)
         const name = decodedToken.user.name
-        console.log("IMEI: " + name)
 
         const sql = `SELECT * FROM appuser WHERE name = '${name}'`
 
@@ -255,6 +256,29 @@ db.checkToken = (req) => {
             return resolve(result[0])
         })
 
+    })
+}
+
+db.changeUserData = (req) => {
+    return new Promise(async (resolve, reject) => {
+        if(req.body.username)
+            connection.query(`UPDATE appuser SET name = '${req.body.username}' WHERE id = '${req.body.userId}'`, (err) => {
+                if(err) return reject(err)
+                return resolve()
+        })
+        if(req.body.password)
+        {
+            const salt = await genSaltSync(10)
+            const password = hashSync(req.body.password, salt)
+
+            connection.query(`UPDATE appuser SET password = '${password}' WHERE id = ${req.body.userId}`, (err) => {
+                if(err) return reject(err)
+                const jsonToken = jsonwebtoken.sign({user: req.body.username}, process.env.SECRET_KEY, {expiresIn:'30m'})
+
+                return resolve(jsonToken)
+            })
+            
+        }
     })
 }
 

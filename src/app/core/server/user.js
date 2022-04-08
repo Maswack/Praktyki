@@ -45,3 +45,9 @@ userRouter.get('/autoLogin', async (req, res) => {
 
     res.send([user, lessonData])
 })
+
+userRouter.put('/changeUserInfo', async (req, res) => {
+    const response = await db.changeUserData(req);
+    res.cookie('token', response, {httpOnly: true, secure: false, sameSite: 'strict', 
+    expires: new Date(Date.now() + 30 * 60 * 1000)})
+})
